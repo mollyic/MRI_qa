@@ -99,7 +99,7 @@ Rating: 3
 ```
 
 ### 8. Ending the session 
-The session will end automatically when all files are reviewed, to end early input ctrl+C. A .json and .csv file will be automatically created when the session is ended, they will appear in the 'mri_rating_record' folder 
+The session will end automatically when all files are reviewed, to end early input ctrl + C. A .json and .csv file will be automatically created when the session is ended, they will appear in the 'mri_rating_record' folder 
 
 ```
 Two files generated (.csv, .json): MRI_rating_record/MRIrate_session-29-06-2022_16:34:19
