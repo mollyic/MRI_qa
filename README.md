@@ -77,7 +77,7 @@ Rating (1 to 5): 4
  ```
 
 ### 7. Rating artifacts 
-Enter the letter corresponding to the artifact you wish to rate (upper and lower case accepted). It is possible to rate all, some or none of the artifacts. Simply press enter to proceed from this menu, the next image will be automatically opened once all artifact ratings are provided. 
+Enter the letter corresponding to the artifact you wish to rate (upper and lower case accepted). It is possible to rate all, some or none of the artifacts. Simply press enter to proceed from this menu.
  
  ```
  Enter letter to rate artifact or hit enter to continue. 
@@ -88,6 +88,14 @@ F - FLOW/GHOSTING
 
 
 Artifact: 
+```
+
+You will then be prompted to enter your rating for the artifact type. Once your rating is entered you will be returned to the artifact selection menu. The next image will be automatically opened once all artifact ratings are provided. 
+ 
+ ```
+Artifact: f
+1 - Severe, 2 - Moderately Severe, 3 - Moderate, 4 - Mild, 5 - None
+Rating: 3
 ```
 
 ### 8. Ending the session 
