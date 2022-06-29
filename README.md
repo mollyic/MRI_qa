@@ -49,7 +49,12 @@ Resuming a previous session will prompt you to select the session your wish to r
 Enter session number to resume: 
  ```
  
-### 5. Entering an overall image quality rating 
+ ### 5. Check image label 
+ Check that the filename, printed in the terminal, matches the image type displayed in ITK-SNAP. If they match, simply press enter. Otherwise enter the correct filename and press enter 
+ 
+ **Note:** entering a corrected file name will not change the name of the original file. The value you enter will simply appear in the final output files with the ratings.
+ 
+### 6. Entering an overall image quality rating 
 Enter the number corresponding to your overall image quality rating (e.g. 4). This field is mandatory.
  
  ```
@@ -64,7 +69,7 @@ Enter the number corresponding to your overall image quality rating (e.g. 4). Th
 Rating (1 to 5): 4
  ```
 
-### 6. Rating artifacts 
+### 7. Rating artifacts 
 Enter the letter corresponding to the artifact you wish to rate (upper and lower case accepted). It is possible to rate all, some or none of the artifacts. Simply press enter to proceed from this menu, the next image will be automatically opened once all artifact ratings are provided. 
  
  ```
@@ -78,7 +83,7 @@ F - FLOW/GHOSTING
 Artifact: 
 ```
 
-### 7. Ending the session 
+### 8. Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl+C. A .json and .csv file will be automatically created when the session is ended, they will appear in the 'mri_rating_record' folder 
 
 ```
