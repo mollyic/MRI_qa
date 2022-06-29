@@ -50,7 +50,7 @@ Enter session number to resume:
  ```
  
  ### 5. Check image label 
- Check that the filename, printed in the terminal, matches the image type displayed in ITK-SNAP. If they match, simply press enter. Otherwise enter the correct filename and press enter. This feature is intended to be useful for filenames that contain the acquisition type in the filename (e.g. BIDS format filenames).
+ Check that the filename, printed in the terminal, matches the acquisition type of the scan displayed in ITK-SNAP. If they match, simply press enter. Otherwise enter the correct filename and press enter. This feature is intended to be useful for filenames that contain the acquisition type in the filename (e.g. BIDS format filenames).
  
  **Note:** entering a corrected file name will not change the name of the original file. The value you enter will simply appear in the final output files with the ratings.
  
