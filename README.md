@@ -1,5 +1,5 @@
-# MRI Image Quality Metrics generator 
-A tool to process MRI scans for Image Quality Metrics
+# MRI Image Quality Assement Tool 
+The simple MRI rating tool allows users to open MRI images in nifti format (nii.gz, nii) and provide a numerical rating that describes the impact of artifact on the image quality. It is possible to resume previous rating sessions using the tool. If a previous rating session is selected, only images that are yet to have a rating will be opened for review.
 
 # Setup
 
