@@ -1,6 +1,4 @@
-#last edit 29/06/2022
-
-import simpledb_objects
+import mriqa_marker_objects
 import subprocess
 import glob
 from datetime import datetime
@@ -37,7 +35,7 @@ if path.exists("MRI_rating_record/") == False:
     print("\n\nDirectory 'MRI_rating_record' created! Your ratings will be stored here. \n\n")
 
 #instantiate simpleDB class and the location of the output JSON files 
-db = simpledb_objects.SimpleDB(output)
+db = mriqa_marker_objects.SimpleDB(output)
 
 ratings_table = None
 output_db_name = None
@@ -162,7 +160,7 @@ try:
 
 
         ratings_table.insert(filepath= filepath, rating=ratings['rating'], date=date, susceptibility=ratings['S'], motion=ratings['M'], flow=ratings['F'], label=labels)
-        simpledb_objects.kill_process()
+        mriqa_marker_objects.kill_process()
         
 except KeyboardInterrupt:
     print('\n\n+----------------------------+\n\nSession Ended\n\n+----------------------------+')
