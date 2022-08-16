@@ -51,7 +51,7 @@ if session_tracker == '1':
     #creates a .JSON file named based on date  
     output_db_name = "MRI_rating_record/MRIrate_session-{}.json".format(time_str)
 
-#RESUMING AN EXISTING FILE 
+#RESUMING AN EXISTING SESSION FILE 
 if session_tracker == '2':
     
     #create a list of all existing .json files: list items will be displayed as potential sessions to resume
