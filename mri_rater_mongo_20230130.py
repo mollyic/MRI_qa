@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv('settings.env')                                 #load .env file with mongodb credentials
 
 #connect to mongodb docker container 
-client = MongoClient(host="localhost", port=27017, username=os.getenv('MONGO_DB_USRNAME'), password=os.getenv('MONGO_DB_PW'))
+client = MongoClient(host="ausd-04051-m.local", port=27017, username=os.getenv('MONGO_DB_USRNAME'), password=os.getenv('MONGO_DB_PW'))
 db = client["image_ratings"]
 #db.ratings.drop()
 #collection = db.ratings
