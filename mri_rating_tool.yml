@@ -6,8 +6,6 @@ dependencies:
 - pip
 - pip:
    - numpy
-   - simpledb
    - pandas
    - pymongo
-   - pprint 
-   - dotenv
+   - python-dotenv
