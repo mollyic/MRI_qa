@@ -20,7 +20,6 @@ Open a terminal window and install Python by running the following commands:
 
 
 ```
-
 sudo apt update
 sudo apt install python3
 ```
@@ -80,7 +79,6 @@ Before running the script, you will need to set the MongoDB credentials in the s
 ```
 MONGO_DB_USRNAME=<username>
 MONGO_DB_PW=<password>
-
 ```
 Replace <username> and <password> with the appropriate values for your MongoDB instance.
 
@@ -90,9 +88,9 @@ To run the script, open a terminal or command prompt and navigate to the directo
 **Note**: the script requires a scan viewer to be installed on your system (itksnap, fsleyes, MRview)
 
     
-    ```
+```
 python mri_qa-marker.py
-    ```
+```
    
 **Note:** if this is the first time running the rating tool, a directory will be created titled 'mri_rating_record'. The .csv and .json files containing your ratings will be stored here. 
 
