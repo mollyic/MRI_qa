@@ -1,6 +1,18 @@
 # MRI Image Quality Assement Tool 
 The simple MRI rating tool allows users to open MRI images in nifti format (nii.gz, nii) and provide a numerical rating that describes the impact of artifact on the image quality. It is possible to resume previous rating sessions using the tool. If a previous rating session is selected, only images that are yet to have a rating will be opened for review.
 
+#Installations 
+
+Here are the steps to install Python and add it to your system's PATH:
+
+    Go to the official Python website at https://www.python.org/downloads/.
+    Click on the "Download" button for the latest version of Python.
+    Choose the appropriate installer for your system. For Windows, choose the "Windows x86-64 executable installer" if you have a 64-bit system, or the "Windows x86 executable installer" if you have a 32-bit system. For macOS, choose the "macOS 64-bit installer" for the latest version of Python.
+    Run the installer and follow the prompts to complete the installation process. When asked, make sure to select the option to "Add Python to PATH" so that Python can be easily accessed from the command prompt.
+    Once the installation is complete, open a new command prompt (Windows) or terminal (macOS/Linux) and type "python" to confirm that Python is installed and running. You should see the Python version number and a command prompt (">>>").
+
+That's it! You now have Python installed on your system and can start using it to run scripts and applications.
+
 # Setup
 
 To use this script, you will need to have Python 3.x installed, along with the required packages. These packages are pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. The instructions below will walk you through the installation process and how to run the script.
