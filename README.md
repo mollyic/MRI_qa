@@ -8,85 +8,61 @@ The simple MRI rating tool allows users to iterate through nifti files based on 
 ### Windows & Mac 
 Here are the steps to install Python and add it to your system's PATH:
 
-    Go to the official Python website at https://www.python.org/downloads/.
-    Click on the "Download" button for the latest version of Python.
-    Choose the appropriate installer for your system based on your operating system (Windows: Windows x86-64 executable installer, macOS: macOS 64-bit installe)
-    Run the installer and follow the prompts to complete the installation process, ensuring that you select "Add Python to PATH" 
-    After the installation has finisihed, open a terminal window and enter "python" to test that it is callable from the terminal 
-   
+- Download that latest official version of Python https://www.python.org/downloads/.
+- Choose the appropriate installer for your operating system (Windows: Windows x86-64 executable installer, macOS: macOS 64-bit installer)
+- Run the installer, ensuring that you select "Add Python to PATH" during the installation
+- After the installation has finisihed, open a terminal window and enter "python" to test that it is callable from the terminal 
+
 
 # Linux:
 
-    Open a terminal window on your Linux system.
+Open a terminal window and install Python by running the following commands:
 
-    Update the package index:
 
-    sql
+```
 
 sudo apt update
-
-Install Python by running the following command:
-
 sudo apt install python3
+```
 
-This will install Python 3.x version. If you want to install Python 2.x version, you can run the following command:
+Verify that Python has been installed correctly by entering the following command:
 
-sudo apt install python
 
-Verify that Python has been installed correctly by running the following command:
-
-css
-
+```
 python3 --version
+```
 
-This should display the version of Python installed on your system.
+Add Python to your PATH by opening the ~/.bashrc file in your home directory:
 
-Next, you need to add Python to your PATH. This will allow you to run Python commands from anywhere on your system.
-
-Open the ~/.bashrc file in a text editor:
-
-bash
-
+```
 nano ~/.bashrc
+```
 
 Add the following line to the end of the file:
 
-ruby
-
+```
 export PATH=$PATH:/usr/bin/python3
+```
 
-This line adds the Python executable to your PATH.
 
-Save the changes and exit the editor by pressing Ctrl+X, followed by Y and Enter.
+Save the changes and exit the editor and reload your bashrc file so the changes take effect: 
 
-Finally, reload the bashrc file for the changes to take effect:
+```
+source ~/.bashrc
+```
 
-bash
-
-    source ~/.bashrc
-
-That's it! Python is now installed on your Linux system and added to your PATH. You can test it by opening a new terminal window and running the following command:
-
+Test that python was successfully installed by calling python in the terminal:
+```
 python3
-
-This should open the Python interpreter.
+```
 
 # Setup
 
-To use this script, you will need to have Python 3.x installed, along with the required packages. These packages are pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. The instructions below will walk you through the installation process and how to run the script.
-Install Python 3.x
+The rating script requires some additional packages to run: pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running the following command:
 
-If you don't already have Python installed, you will need to install it first. You can download the latest version of Python from the official website: https://www.python.org/downloads/.
-
-Once you've downloaded the installer for your operating system, run it and follow the prompts to install Python.
-Install required packages
-
-After installing Python, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running the following command:
-
+```
 pip install pymongo configparser getpass subprocess datetime re python-dotenv
-
-This will install all the necessary packages.
-Run the script
+```
 
 To run the script, you will need to have the necessary files. These files are:
 
@@ -97,46 +73,34 @@ To run the script, you will need to have the necessary files. These files are:
 
 Place all these files in the same directory.
 
+# Credentials
+
 Before running the script, you will need to set the MongoDB credentials in the settings.env file. The file should look like this:
 
-makefile
-
+```
 MONGO_DB_USRNAME=<username>
 MONGO_DB_PW=<password>
 
+```
 Replace <username> and <password> with the appropriate values for your MongoDB instance.
 
-To run the script, open a terminal or command prompt and navigate to the directory where the files are stored. Then run the following command:
-
-python mri_rater.py
-
-This will start the script. Follow the prompts to begin a new session or resume a previous session. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file.
-
-Note that the script requires a scan viewer to be installed on your system. You can set the path to the scan viewer in the rating_config.ini file.
-
- 
 # Usage 
+To run the script, open a terminal or command prompt and navigate to the directory where the files are stored. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file. Then run the following command:
 
-### 1. Run the script 
-Run the script 'mri_qa-marker.py' using python in the terminal, code will depend on python version 
+**Note**: the script requires a scan viewer to be installed on your system (itksnap, fsleyes, MRview)
 
-**Note:** this step can take some time (~1 minute) as the script begins by creating a list of all the files in the specified directory with file types of either .nii or .nii.gz
-```
-#python v3
-python3 mri_qa-marker.py
-
-#python
+    
+    ```
 python mri_qa-marker.py
-```
+    ```
+   
 **Note:** if this is the first time running the rating tool, a directory will be created titled 'mri_rating_record'. The .csv and .json files containing your ratings will be stored here. 
 
 ```
 Directory 'MRI_rating_record' created! Your ratings will be stored here.
 ```
-
-### 2. Enter the session type 
- Enter the number corresponding to the session you wish to select.
- 
+Follow the prompts to begin a new session or resume a previous session. 
+  
  ```
  Resume a previous session? 
 1 - New session
@@ -185,29 +149,8 @@ Enter the number corresponding to your overall image quality rating (e.g. 4). Th
 Rating (1 to 5): 4
  ```
 
-### 7. Rating artifacts 
-Enter the letter corresponding to the artifact you wish to rate (upper and lower case accepted). It is possible to rate all, some or none of the artifacts. Simply press enter to proceed from this menu.
- 
- ```
- Enter letter to rate artifact or hit enter to continue. 
 
-M - MOTION 
-S - SUSCEPTIBILITY
-F - FLOW/GHOSTING
-
-
-Artifact: 
-```
-
-You will then be prompted to enter your rating for the artifact type. Once your rating is entered you will be returned to the artifact selection menu. The next image will be automatically opened once all artifact ratings are provided. 
- 
- ```
-Artifact: f
-1 - Severe, 2 - Moderately Severe, 3 - Moderate, 4 - Mild, 5 - None
-Rating: 3
-```
-
-### 8. Ending the session 
+### 7. Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl + C. A .json and .csv file will be automatically created when the session is ended, they will appear in the 'mri_rating_record' folder 
 
 ```
