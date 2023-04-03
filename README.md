@@ -1,7 +1,7 @@
 # MRI Image Quality Assement Tool 
 The simple MRI rating tool allows users to open MRI images in nifti format (nii.gz, nii) and provide a numerical rating that describes the impact of artifact on the image quality. It is possible to resume previous rating sessions using the tool. If a previous rating session is selected, only images that are yet to have a rating will be opened for review.
 
-#Installations 
+# Installations 
 
 Here are the steps to install Python and add it to your system's PATH:
 
@@ -12,6 +12,62 @@ Here are the steps to install Python and add it to your system's PATH:
     Once the installation is complete, open a new command prompt (Windows) or terminal (macOS/Linux) and type "python" to confirm that Python is installed and running. You should see the Python version number and a command prompt (">>>").
 
 That's it! You now have Python installed on your system and can start using it to run scripts and applications.
+
+# install Python and add it to your path on Linux:
+
+    Open a terminal window on your Linux system.
+
+    Update the package index:
+
+    sql
+
+sudo apt update
+
+Install Python by running the following command:
+
+sudo apt install python3
+
+This will install Python 3.x version. If you want to install Python 2.x version, you can run the following command:
+
+sudo apt install python
+
+Verify that Python has been installed correctly by running the following command:
+
+css
+
+python3 --version
+
+This should display the version of Python installed on your system.
+
+Next, you need to add Python to your PATH. This will allow you to run Python commands from anywhere on your system.
+
+Open the ~/.bashrc file in a text editor:
+
+bash
+
+nano ~/.bashrc
+
+Add the following line to the end of the file:
+
+ruby
+
+export PATH=$PATH:/usr/bin/python3
+
+This line adds the Python executable to your PATH.
+
+Save the changes and exit the editor by pressing Ctrl+X, followed by Y and Enter.
+
+Finally, reload the bashrc file for the changes to take effect:
+
+bash
+
+    source ~/.bashrc
+
+That's it! Python is now installed on your Linux system and added to your PATH. You can test it by opening a new terminal window and running the following command:
+
+python3
+
+This should open the Python interpreter.
 
 # Setup
 
