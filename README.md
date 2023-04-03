@@ -1,19 +1,21 @@
 # MRI Image Quality Assement Tool 
-The simple MRI rating tool allows users to open MRI images in nifti format (nii.gz, nii) and provide a numerical rating that describes the impact of artifact on the image quality. It is possible to resume previous rating sessions using the tool. If a previous rating session is selected, only images that are yet to have a rating will be opened for review.
+The simple MRI rating tool allows users to iterate through nifti files based on a filename criteria and provide a numerical rating that describes the scan quality. It is possible to resume previous rating sessions using the tool. If a previous rating session is selected, only images that are yet to have a rating will be opened for review and all images can be viewed a maximum of 3 times.
 
 # Installations 
 
+## Python
+
+### Windows & Mac 
 Here are the steps to install Python and add it to your system's PATH:
 
     Go to the official Python website at https://www.python.org/downloads/.
     Click on the "Download" button for the latest version of Python.
-    Choose the appropriate installer for your system. For Windows, choose the "Windows x86-64 executable installer" if you have a 64-bit system, or the "Windows x86 executable installer" if you have a 32-bit system. For macOS, choose the "macOS 64-bit installer" for the latest version of Python.
-    Run the installer and follow the prompts to complete the installation process. When asked, make sure to select the option to "Add Python to PATH" so that Python can be easily accessed from the command prompt.
-    Once the installation is complete, open a new command prompt (Windows) or terminal (macOS/Linux) and type "python" to confirm that Python is installed and running. You should see the Python version number and a command prompt (">>>").
+    Choose the appropriate installer for your system based on your operating system (Windows: Windows x86-64 executable installer, macOS: macOS 64-bit installe)
+    Run the installer and follow the prompts to complete the installation process, ensuring that you select "Add Python to PATH" 
+    After the installation has finisihed, open a terminal window and enter "python" to test that it is callable from the terminal 
+   
 
-That's it! You now have Python installed on your system and can start using it to run scripts and applications.
-
-# install Python and add it to your path on Linux:
+# Linux:
 
     Open a terminal window on your Linux system.
 
