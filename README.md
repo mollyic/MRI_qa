@@ -3,8 +3,47 @@ The simple MRI rating tool allows users to open MRI images in nifti format (nii.
 
 # Setup
 
- 1. Create a directory and download the python (.py) and config (.ini) files into this directory
- 2. Open the file 'rating-tool_config.ini' and enter the filepath for the directory containing the nifti files to be reviewed, subdirectories will be located using the grep wildcard function
+To use this script, you will need to have Python 3.x installed, along with the required packages. These packages are pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. The instructions below will walk you through the installation process and how to run the script.
+Install Python 3.x
+
+If you don't already have Python installed, you will need to install it first. You can download the latest version of Python from the official website: https://www.python.org/downloads/.
+
+Once you've downloaded the installer for your operating system, run it and follow the prompts to install Python.
+Install required packages
+
+After installing Python, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running the following command:
+
+pip install pymongo configparser getpass subprocess datetime re python-dotenv
+
+This will install all the necessary packages.
+Run the script
+
+To run the script, you will need to have the necessary files. These files are:
+
+    mri_rater.py
+    mriqa_marker_objects_20230130.py
+    rating_config.ini
+    settings.env
+
+Place all these files in the same directory.
+
+Before running the script, you will need to set the MongoDB credentials in the settings.env file. The file should look like this:
+
+makefile
+
+MONGO_DB_USRNAME=<username>
+MONGO_DB_PW=<password>
+
+Replace <username> and <password> with the appropriate values for your MongoDB instance.
+
+To run the script, open a terminal or command prompt and navigate to the directory where the files are stored. Then run the following command:
+
+python mri_rater.py
+
+This will start the script. Follow the prompts to begin a new session or resume a previous session. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file.
+
+Note that the script requires a scan viewer to be installed on your system. You can set the path to the scan viewer in the rating_config.ini file.
+
  
 # Usage 
 
