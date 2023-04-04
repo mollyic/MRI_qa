@@ -14,7 +14,7 @@ Here are the steps to install Python and add it to your system's PATH:
 - After the installation has finisihed, open a terminal window and enter "python" to test that it is callable from the terminal 
 
 
-# Linux:
+### Linux:
 
 Open a terminal window and install Python by running the following commands:
 
