@@ -120,19 +120,8 @@ Resuming a previous session will prompt you to select the session your wish to r
 Enter session number to resume: 
  ```
  
- ### 5. Check image label 
- Check that the filename, printed in the terminal, matches the acquisition type of the scan displayed in ITK-SNAP. If they match, simply press enter. Otherwise enter the correct filename and press enter. This feature is intended to be useful for filenames that contain the acquisition type in the filename (e.g. BIDS format filenames).
  
- **Note:** entering a corrected file name will not change the name of the original file. The value you enter will simply appear in the final output files with the ratings.
- 
- ```
-File: example_FLAIR.nii
-
-Press enter for a correctly labelled file (T1,T2, FLAIR).
-Otherwise type the correct label:
- ```
- 
-### 6. Entering an overall image quality rating 
+### 5. Entering an overall image quality rating 
 Enter the number corresponding to your overall image quality rating (e.g. 4). This field is mandatory.
  
  ```
@@ -148,7 +137,7 @@ Rating (1 to 5): 4
  ```
 
 
-### 7. Ending the session 
+### 6. Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl + C. A .json and .csv file will be automatically created when the session is ended, they will appear in the 'mri_rating_record' folder 
 
 ```
