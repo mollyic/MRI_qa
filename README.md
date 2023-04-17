@@ -5,7 +5,7 @@ The simple MRI rating tool allows users to iterate through nifti files based on 
 
 ## Python
 
-### Windows & Mac 
+### Windows & Mac:
 Here are the steps to install Python and add it to your system's PATH:
 
 - Download that latest official version of Python https://www.python.org/downloads/.
