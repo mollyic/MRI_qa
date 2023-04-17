@@ -57,24 +57,35 @@ python3
 
 # Setup
 
+## Python environment
+
 The rating script requires some additional packages to run: pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running the following command:
 
 ```
 pip install pymongo configparser getpass subprocess datetime re python-dotenv
 ```
 
-To run the script, you will need to have the necessary files. These files are:
+## Github download
+
+To run the script, you will need to download the files available on Github:
 
     mri_rater.py
     mriqa_marker_objects_20230130.py
     rating_config.ini
     settings.env
 
-Place all these files in the same directory.
+To download these files from Github, create a folder on your local computer to store the files related to the rating tool. Open the terminal at this folder location, on most operating systems this can be achieved by right clicking the new folder and selecting the 'Open in terminal' option. 
+
+When the terminal is open enter the following code to copy the repository from Github onto your local computer
+
+```
+git clone https://github.com/mollyic/MRI_qa.git
+```
+This should create a folder within your directory that contains all the scripts listed above.
 
 # Credentials
 
-Before running the script, you will need to set the MongoDB credentials in the settings.env file. The file should look like this:
+Before running the script, you will need to set the MongoDB credentials in the settings.env file in your newly created folder. The file should look like this:
 
 ```
 MONGO_DB_USRNAME=<username>
@@ -83,7 +94,7 @@ MONGO_DB_PW=<password>
 Replace <username> and <password> with the appropriate values for your MongoDB instance.
 
 # Usage 
-To run the script, open a terminal or command prompt and navigate to the directory where the files are stored. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file. Then run the following command:
+To run the script, open a terminal or command prompt in the directory where the files are stored. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file. Then run the following command:
 
 **Note**: the script requires a scan viewer to be installed on your system (itksnap, fsleyes, MRview)
 
