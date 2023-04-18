@@ -59,10 +59,14 @@ python3
 
 ## Python environment
 
-The rating script requires some additional packages to run: pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running the following command:
+The rating script requires some additional packages to run: pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running either of the following commands depending on your pip version:
 
 ```
+#pip install
 pip install pymongo configparser getpass subprocess datetime re python-dotenv
+
+#pip3 install 
+pip3 install pymongo configparser getpass subprocess datetime re python-dotenv
 ```
 
 ## Github download
@@ -100,7 +104,7 @@ To run the script, open a terminal or command prompt in the directory where the 
 
     
 ```
-python mri_qa-marker.py
+python3 mri_qa-marker.py
 ```
    
 **Note:** if this is the first time running the rating tool, a directory will be created titled 'mri_rating_record'. The .csv and .json files containing your ratings will be stored here. 
