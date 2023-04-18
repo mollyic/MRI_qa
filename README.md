@@ -87,6 +87,17 @@ git clone https://github.com/mollyic/MRI_qa.git
 ```
 This should create a folder within your directory that contains all the scripts listed above.
 
+## Scan viewer
+
+If you do not already have one of the 3 scan viewers on your system, they can be downloaded using the links below. 
+
+1. ITKSNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
+2. fsleyes: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
+3. MRview: https://mrtrix.readthedocs.io/en/3.0_rc3/installation/linux_install.html
+
+**Note**: the script only requires that you have one of these scan viewers installed 
+
+
 # Credentials
 
 Before running the script, you will need to set the MongoDB credentials in the settings.env file in your newly created folder. The file should look like this:
@@ -100,7 +111,6 @@ Replace <username> and <password> with the appropriate values for your MongoDB i
 # Usage 
 To run the script, open a terminal or command prompt in the directory where the files are stored. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file. Then run the following command:
 
-**Note**: the script requires a scan viewer to be installed on your system (itksnap, fsleyes, MRview)
 
     
 ```
@@ -120,12 +130,12 @@ Follow the prompts to begin a new session or resume a previous session.
 2 - Resume previous sessions
  ```
 ### 3. New Session selection 
- Choosing a new session will bring up ITK-SNAP in a new window
+ Choosing a new session will bring up your scan viewer (ITK-SNAP, fsleyes, MRview) in a new window
  
-**Note:** do not close ITK-SNAP, after your review has been entered the current image will be closed and the next image to be reviewed will automatically be opened
+**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image to be reviewed will automatically be opened
  
 ### 4. Previous session selection
-Resuming a previous session will prompt you to select the session your wish to resume, enter the number corresponding to the session and press enter. ITK-SNAP will open the next image to be reviewed.
+Resuming a previous session will prompt you to select the session your wish to resume, enter the number corresponding to the session and press enter. The scan viewer will open the next image to be reviewed.
  
  ```
  Selection: 2
