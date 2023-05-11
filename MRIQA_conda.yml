@@ -1,0 +1,11 @@
+name: MRIratingtool
+channels:
+- defaults
+dependencies:
+- python=3.10
+- pip
+- pip:
+   - numpy
+   - pandas
+   - pymongo
+   - python-dotenv
