@@ -108,7 +108,7 @@ def configupdate():
         config.write(rewrite)
 
 
-def update_rating(username, image_id, collection):
+def update_rating(username, image_id, collection, viewer):
     existing_image = collection.find_one({"scan_id": image_id})
     if existing_image:                                                  #check if image exists in db 
         if existing_image.get("review_count", 0) >= 3:                  #check image has been reviewed less than 3 times
@@ -124,11 +124,11 @@ def update_rating(username, image_id, collection):
         rating = review_image(username, image_id)                       #if conditions not met: proceed with rating
         #$inc: increment a rating by provided value (1)
         #$push: appends value to array (ratings)
-        collection.update_one({"scan_id": image_id}, {"$inc": {"review_count": 1}, "$push": {"ratings": {"username": username, "rating": rating}}})
+        collection.update_one({"scan_id": image_id}, {"$inc": {"review_count": 1}, "$push": {"ratings": {"username": username, "rating": rating, "viewer": viewer}}})
     
     else:                                                               #if the image does not exist create a new entry
         rating = review_image(username, image_id)
-        collection.insert_one({"scan_id": image_id, "review_count": 1, "ratings": [{"username": username, "rating": rating}]})
+        collection.insert_one({"scan_id": image_id, "review_count": 1, "ratings": [{"username": username, "rating": rating, "viewer": viewer}]})
 
 
 

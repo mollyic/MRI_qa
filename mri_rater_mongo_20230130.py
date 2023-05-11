@@ -9,10 +9,13 @@ import getpass
 import subprocess
 from dotenv import load_dotenv                          
 
+import getpass
+
 load_dotenv('settings.env')                                 #load .env file with mongodb credentials
 
 #connect to mongodb docker container 
-client = MongoClient(host="ausd-04051-m.local", port=27017, username=os.getenv('MONGO_DB_USRNAME'), password=os.getenv('MONGO_DB_PW'))
+client = MongoClient(host="localhost", port=27017, username=os.getenv('MONGO_DB_USRNAME'), password=os.getenv('MONGO_DB_PW'))
+
 db = client["image_ratings"]
 #db.ratings.drop()
 #collection = db.ratings
@@ -106,7 +109,7 @@ rootdir         = config['settings']['input_images']
 #PARSE FILES AND REVIEW--------------------------------------------
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 filesearch = re.compile(string)                                     #regex expression 
-#user = "oscar"                                                     #test user
+user = "oscar"                                                     #test user
 
 try:
     for root, dirs, files in os.walk(rootdir):                        
@@ -120,7 +123,7 @@ try:
             if filesearch.match(file):
                 #print('\033c')
                 fileview = subprocess.Popen([viewer, root +'/'+file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-                markerFunc.update_rating(user, file, collection)
+                markerFunc.update_rating(user, file, collection, viewer)
                 if eval(artifacts): #eval(): compiles config string to bytecode and evaluates as py expression (boolean)
                     markerFunc.review_artifacts(user, file, collection) 
                 markerFunc.kill_process(viewer)
