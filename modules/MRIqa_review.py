@@ -125,12 +125,7 @@ class collector:
                 if int(img_rating) in range(1,6):
                     self.save_review(username = username, image_id=image_id, viewer=viewer, img_rating=img_rating, reviewed = reviewed)
                     return img_rating
-                else:
-                    print('\033c')
-                    print(ERR_STRING)
-            else: 
-                print('\033c')
-                print(ERR_STRING)
+            print(ERR_STRING)
     
     def save_review(self, username, image_id, viewer, img_rating, reviewed = False):
         ratings = {'user': username, 'rating': img_rating, 'date':time_str, "viewer": viewer}

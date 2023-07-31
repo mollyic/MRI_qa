@@ -1,18 +1,13 @@
-import os 
-import signal
+
 from configparser import ConfigParser
 import re
-#config file with file paths 
 config_file = "MRIQA_config.ini"
 config = ConfigParser()
 config.read(config_file)
 
-#GLOBAL VARS --------------------------------------------------
 ERR_STRING = "Invalid entry, enter a number from 1-5\n--------------------------------------"
 
 #UPDATE CONFIG FILE --------------------------------------------------
-#if participant has no config settings or wishes to update them  
-#this function saves the details to the config file for future use 
 def configupdate():
     config_qs = ["Enter image viewer index:\n1 - ITK-SNAP\n2 - MRView\n3 - FSLeyes\n", 
                     "Folders to review:\n1 - ANAT folder\n2 - All folders\n\n"] 
@@ -28,10 +23,7 @@ def configupdate():
             if review.isdigit(): 
                 if int(review) in range(1,3):
                     break
-                else:
-                    print("\033c" + ERR_STRING.replace('5', '2'))
-            else: 
-                print("\033c" + ERR_STRING.replace('5', '2'))
+            print("\033c" + ERR_STRING.replace('5', '2'))
         
         if count == 0:                                  #count 0 = Q1 viewer types
             viewer = viewers[int(review)-1] 
@@ -47,10 +39,7 @@ def configupdate():
                     if files.isdigit(): 
                         if int(files) in range(1,4):
                             break
-                        else:
-                            print("\033c" + ERR_STRING.replace('5', '3'))
-                    else: 
-                        print("\033c" + ERR_STRING.replace('5', '3'))
+                    print("\033c" + ERR_STRING.replace('5', '3'))
                 if files == '1':
                     string = '(.*nii$|.*nii.gz$)'
                     input_params = 'all files'
@@ -66,12 +55,11 @@ def configupdate():
                             print("\033c")
                             print("No valid sequences selected.\n")
                             continue        
-                        else:
-                            break
+                        break
 
                     for seq in seq_list:
                         input_params += [f'{seqs[int(seq)-1]}']
-                        string += [f'(^sub-.*{seqs[int(seq)-1].lower()}.*.nii*)']
+                        string += [f'(^sub-.*{seqs[int(seq)-1].lower()}(.*nii$|.*nii.gz$))']
                     string = "|".join(string)
                     string = '(?i)'+ string
                     print(f"Reviewing sequences: {input_params}")
@@ -81,7 +69,7 @@ def configupdate():
                     uniqueID = input("Selection: ")
                     print("\033c")
                     for id in uniqueID.split(' '):
-                        string += [f'(.*{str(id)}.*.nii*)']
+                        string += [f'(.*{str(id)}(.*nii$|.*nii.gz$))']
                         input_params += [id]
                     string = "|".join(string)
                     string = '(?i)'+string
