@@ -1,0 +1,29 @@
+{
+    "P15_T2/T1.nii": {
+        "user": "mollyi",
+        "rating": 2,
+        "date": "07-06-2023_14:58:57",
+        "susceptibility": "",
+        "motion": "",
+        "flow": "",
+        "viewer": "mrview"
+    },
+    "sub-HRV5021_ses-pre_acq-H5_T1w.nii.gz": {
+        "user": "mollyi",
+        "rating": 5,
+        "date": "13-07-2023_15:20:47",
+        "susceptibility": "",
+        "motion": "",
+        "flow": "",
+        "viewer": "mrview"
+    },
+    "sub-HRV5021_ses-post_acq-H4_T1w.nii.gz": {
+        "user": "mollyi",
+        "rating": 5,
+        "date": "13-07-2023_15:20:47",
+        "susceptibility": "",
+        "motion": "",
+        "flow": "",
+        "viewer": "mrview"
+    }
+}

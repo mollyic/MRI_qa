@@ -63,10 +63,10 @@ The rating script requires some additional packages to run: pymongo, configparse
 
 ```
 #pip install
-pip install pymongo configparser getpass subprocess datetime re python-dotenv
+pip install pymongo configparser getpass4 subprocess datetime re python-dotenv
 
 #pip3 install 
-pip3 install pymongo configparser getpass subprocess datetime re python-dotenv
+pip3 install pymongo configparser getpass4 subprocess datetime re python-dotenv
 ```
 
 ## Github download

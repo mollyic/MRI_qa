@@ -1,0 +1,68 @@
+{
+    "sub-NC246_ses-20190716_acq-motion_run-02_T1w.nii.gz": {
+        "ratings": [
+            {
+                "user": "mollyi",
+                "rating": "2",
+                "date": "31-07-2023_14:30:59",
+                "viewer": "mrview"
+            }
+        ],
+        "review_count": 1
+    },
+    "sub-NC246_ses-20190716_acq-nomotion_run-01_T1w.nii.gz": {
+        "ratings": [
+            {
+                "user": "mollyi",
+                "rating": "3",
+                "date": "31-07-2023_14:30:59",
+                "viewer": "mrview"
+            }
+        ],
+        "review_count": 1
+    },
+    "sub-NC232_ses-20190430_acq-nomotion_run-01_T1w.nii.gz": {
+        "ratings": [
+            {
+                "user": "mollyi",
+                "rating": "2",
+                "date": "31-07-2023_14:31:11",
+                "viewer": "mrview"
+            }
+        ],
+        "review_count": 1
+    },
+    "sub-NC232_ses-20190430_acq-motion_run-02_T1w.nii.gz": {
+        "ratings": [
+            {
+                "user": "mollyi",
+                "rating": "3",
+                "date": "31-07-2023_14:31:11",
+                "viewer": "mrview"
+            }
+        ],
+        "review_count": 1
+    },
+    "sub-NC240_ses-20190702_acq-nomotion_run-01_T1w.nii.gz": {
+        "ratings": [
+            {
+                "user": "mollyi",
+                "rating": "3",
+                "date": "31-07-2023_14:48:35",
+                "viewer": "itksnap"
+            }
+        ],
+        "review_count": 1
+    },
+    "sub-NC240_ses-20190702_acq-motion_run-02_T1w.nii.gz": {
+        "ratings": [
+            {
+                "user": "mollyi",
+                "rating": "3",
+                "date": "31-07-2023_14:51:23",
+                "viewer": "itksnap"
+            }
+        ],
+        "review_count": 1
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "P15_T2/T1.nii": {
+        "user": "mollyi",
+        "rating": 5,
+        "date": "07-06-2023_14:44:25",
+        "susceptibility": "",
+        "motion": "",
+        "flow": "",
+        "viewer": "itksnap"
+    },
+    "P04_T1/T1.nii": {
+        "user": "mollyi",
+        "rating": 2,
+        "date": "07-06-2023_14:44:25",
+        "susceptibility": "",
+        "motion": "",
+        "flow": "",
+        "viewer": "itksnap"
+    },
+    "P13_T1/T1.nii": {
+        "user": "mollyi",
+        "rating": 1,
+        "date": "07-06-2023_14:44:25",
+        "susceptibility": "",
+        "motion": "",
+        "flow": "",
+        "viewer": "itksnap"
+    }
+}

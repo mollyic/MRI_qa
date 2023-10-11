@@ -45,7 +45,7 @@ def configupdate():
                     input_params = 'all files'
 
                 elif files == '2':
-                    seqs = ['T1', 'T2', 'FLAIR', 'DWI'] 
+                    seqs = ['T1w', 'T2w', 'FLAIR', 'DWI'] 
                     while True:
                         print(f"Enter sequence index(es):\n1 - {seqs[0]}    2 - {seqs[1]}    3 - {seqs[2]}    4 - {seqs[3]} ")
                         select_bids = input("\nSelection: ")
