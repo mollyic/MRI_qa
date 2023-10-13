@@ -57,16 +57,29 @@ python3
 
 # Setup
 
-## Python environment
+After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this using either using conda, with the provided .yml file, or via pip install.
 
-The rating script requires some additional packages to run: pymongo, configparser, getpass, subprocess, datetime, re, and dotenv. After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this by opening a terminal or command prompt and running either of the following commands depending on your pip version:
+
+## conda install 
+
+**Recommended:** A conda environment helps to manage software versions and ensures they remain compatible with the rating tool. Details on installing conda can be found at https://www.anaconda.com/download. Having downloaded conda, run the following code.
 
 ```
 #pip install
-pip install pymongo configparser getpass4 subprocess datetime re python-dotenv
+pip install pymongo getpass4 python-dotenv
 
 #pip3 install 
-pip3 install pymongo configparser getpass4 subprocess datetime re python-dotenv
+pip3 install pymongo getpass4 python-dotenv
+```
+
+## pip install 
+
+```
+#pip install
+pip install pymongo getpass4 python-dotenv
+
+#pip3 install 
+pip3 install pymongo getpass4 python-dotenv
 ```
 
 ## Github download
@@ -77,6 +90,11 @@ To run the script, you will need to download the files available on Github:
     mriqa_marker_objects_20230130.py
     rating_config.ini
     settings.env
+    MRIqa_tool.py 
+    MRIqa_config.py 
+    MRIqa_conda.py
+    modules/MRIqa_config.py 
+ 
 
 To download these files from Github, create a folder on your local computer to store the files related to the rating tool. Open the terminal at this folder location, on most operating systems this can be achieved by right clicking the new folder and selecting the 'Open in terminal' option. 
 

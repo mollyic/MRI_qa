@@ -1,60 +1,49 @@
 import os 
 import signal
-from configparser import ConfigParser
 from pymongo import MongoClient
 from dotenv import load_dotenv                          
-from datetime import datetime
 import re 
 from collections import defaultdict
 import json
-
-
-#GLOBAL VARS --------------------------------------------------
-time_str = datetime.now().strftime("%d-%m-%Y_%H:%M:%S")     #date for output files
-ERR_STRING = "Invalid entry, enter a number from 1-5\n--------------------------------------"
+import config
+from config import ERR_STRING
 
 class collector:
-    def __init__(self, results_dir, local, new, sesh_str = f'MRIrate_{time_str}'):
+    def __init__(self, new):
         
         self.new = new
-        self.sesh_str = sesh_str
-        self.local = local
+        self.results_dir = config.session.output_dir
+        self.sesh_str = f'MRIqa_{config.preferences.seshid}'
+        self.mongodb = config.preferences.mongodb
+        self.time_str = config.session.time_str
 
-        if local:
-            if not os.path.exists("MRI_rating_record/"):
-                os.mkdir("MRI_rating_record/")
-                print("\n\nDirectory 'MRI_rating_record' created! Your ratings will be stored here. \n\n")
-
-            
-            self.results_dir = results_dir
+        if not self.mongodb:
+            os.makedirs(self.results_dir, exist_ok=True)
+            print(f"\n\n.csv rating files to be stored in directory: {self.results_dir}. \n\n")
             self.db = defaultdict
             if not new:
-                self.filename = f'MRI_rating_record/{self.list_collections()}'
+                self.filename = f'{self.results_dir}/{self.list_collections()}'
                 with open(self.filename, "r") as file:
                     self.collection = defaultdict(dict, json.load(file))             #returns JSON object as dictionary  
             else: 
-                self.filename = f'MRI_rating_record/{sesh_str}_{time_str}.json'
+                self.filename = f'{self.results_dir}/{self.sesh_str}_{self.time_str}.json'
                 self.collection = defaultdict(dict)
 
-
-
         else:
-            load_dotenv('settings.env')                                 #load .env file with mongodb credentials
+            load_dotenv(config.session.db_settings)                                 #load .env file with mongodb credentials
             client = MongoClient(host="10.101.98.10", port=27017, username=os.getenv('MONGO_DB_USRNAME'), password=os.getenv('MONGO_DB_PW'))
             self.db = client["image_ratings"]
             if not new:
                 self.collection = self.db[self.list_collections()] 
             else:
-                self.collection = self.db[sesh_str]
+                self.collection = self.db[self.sesh_str]
     
     def list_collections(self):
-        
         """
-        
         Generate list of already recorded results 
         
         """
-        if self.local:
+        if not self.mongodb:
             collections = [item for item in os.listdir(self.results_dir) if re.match('(.*?.json$)', item)]
         else:
             # for i in db.list_collection_names():
@@ -90,7 +79,7 @@ class collector:
         reviewed = False
         allreviewed = False
         user_reviewed = False
-        if self.local:
+        if not self.mongodb:
             if image_id in self.collection.keys():
                 reviewed = True
                 if self.collection[image_id]['review_count'] >= 3:
@@ -128,8 +117,8 @@ class collector:
             print(ERR_STRING)
     
     def save_review(self, username, image_id, viewer, img_rating, reviewed = False):
-        ratings = {'user': username, 'rating': img_rating, 'date':time_str, "viewer": viewer}
-        if self.local:
+        ratings = {'user': username, 'rating': img_rating, 'date':self.time_str, "viewer": viewer}
+        if not self.mongodb:
             if reviewed:
                 self.collection[image_id]['ratings'].append(ratings)
                 self.collection[image_id]['review_count'] += 1
@@ -190,15 +179,9 @@ def review_artifacts(username, image_id, collection):
                 print("\033c" + ERR_STRING +'\n')
 
 def review_subject():
-        
-    
     """
-    
     Choice of reviewing either subject-wise or all subjects
-    
     """
-    
-
     print('\033c')
     while True:
         print("Review: \n\n1 - All subjects \n2 - Single subject")
