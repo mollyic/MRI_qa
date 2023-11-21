@@ -1,17 +1,14 @@
 from mriqa import messages
 from mriqa import config
-import re
 from mriqa.environ import parse_console
-import os 
 import subprocess
 import pprint
 import json 
-from mriqa.review import reviewer
-import logging
+from os.path import basename as bn
 
 def main():
-    from mriqa.review import kill_process
-    
+    from mriqa.utils import reviewer, kill_process
+
     parse_console()
 
     # Make sure loggers are started
@@ -32,42 +29,42 @@ def main():
             
 
     config.loggers.cli.log(30, msg = start_message)
-    """
-    Instantiate either dict object or mongodb database to store ratings
-    """
-    config.collector.func_finder()      #assign appropriate functions to class
+    
+    """Instantiate either dict object or mongodb database to store ratings"""
+    config.collector.func_finder()      
     db = reviewer()
 
-    """
-    PARSE FILES AND REVIEW
-    """
     viewer = config.session.viewer
     user = config.session.user
-    
-    files = db.check()
+    files = config.session.inputs
 
     try: 
-        if files:
-            for file in files:                        
-                #subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-                db.review(img = file)
-                        
-                if config.session.artifacts: 
-                    db.review_artifacts(user, file, db) 
-                        
-                kill_process(viewer)        
+        for file in files:                        
+            if not db.check(img = bn(file)):
+              continue
+            """Check for previously reviewed files
+                move check inside: create list of files not reviewed and present at the end 
+                Check each file as it comes through 
+            """
+            subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+
+            db.review(img = bn(file))
+                    
+            if config.session.artifacts: 
+                db.review_artifacts(user, file, db) 
+                    
+            kill_process(viewer)        
     except KeyboardInterrupt:
         pass 
     
-    print(messages.END)
+    config.loggers.cli.log(30, messages.END)
 
     if not config.session.mongodb:
-        print('\n\n.json file generated\n\n')
         with open(str(db.filename), "w") as f:
             json.dump(db.db, f, indent = 4)
 
     else:
-        for doc in db.find():
+        for doc in db.db.find():
             pprint.pprint(doc)
 
 if __name__ == "__main__":

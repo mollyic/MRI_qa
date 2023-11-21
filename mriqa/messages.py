@@ -48,7 +48,7 @@ FORMATTING MESSAGES
 BREAK=    "--------------------------------------------------"
 
 #End message
-END = f'\n{BREAK}\nSession Ended: all files matching criteria reviewed{BREAK}'
+END = f'\n\n{BREAK}\nSession Ended: all files matching criteria reviewed\n{BREAK}\n\nRating database updated\n\n'
 
 
 REVIEW_FILE = """{output_dir}/{review_id}"""
@@ -59,8 +59,9 @@ REVIEW SESSION MESSAGES:
     - Messages for review inputs
 """
 
-#Message when invalid integer entry during rating 
-INPUT_ERR = f"\n{BREAK}\nInvalid entry, enter a number from 1-5"
+#Messages when invalid integer entry
+RATE_ERR = f"\n{BREAK}\nInvalid entry, enter a number from 1-5"
+SES_ERR = "Invalid session, try again:\n"
 
 #Overall rating score key
 SCORES = '1- Unusable      2 - Suboptimal      3 - Acceptable       4 - Above Average     5 - Excellent\n'
@@ -70,6 +71,5 @@ ART_SCORES = '1 - Severe       2 - Moderately Severe       3 - Moderate        4
 
 #Message for possible rating score
 PICK_SCORE ="Enter rating (1 to 5): "
-
-
+PICK_SES ="Enter session number to resume: "
 

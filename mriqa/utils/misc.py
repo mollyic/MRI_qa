@@ -1,25 +1,20 @@
 import signal
-from mriqa.messages import INPUT_ERR, PICK_SCORE
+from mriqa import messages, config
 import os
 
+def verify_input(sessions = None, n = 5):
 
-
-def verify_input( question ='', forced = False, n = 5, select = PICK_SCORE, err = INPUT_ERR):
-    if type(n) == list:
-        if len(n) == 1: 
-            forced = True
-        n = len(n)
-
+    question = messages.SCORES if not sessions else sessions
+    selection = messages.PICK_SCORE if not sessions else messages.PICK_SES
+    error = messages.RATE_ERR if not sessions else messages.SES_ERR
+    
     while True:
-        print(question)
-        answer = input(select)
-        if forced:
-            answer = 1
-            break
+        config.loggers.cli.log(30,  question)
+        answer = input(selection)
         if answer.isdigit(): 
             if int(answer) in range(1, n + 1):
                 break
-        print(err)
+        config.loggers.cli.log(30, error)
     return int(answer)
 
 def kill_process(viewer):

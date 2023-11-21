@@ -55,7 +55,7 @@ class _Config:
    
     @classmethod    #class method: associated with class not instance; access class via cls to modify attributes 
     def func_finder(cls):
-        from mriqa.review import _MongoDB, _JsonDB
+        from mriqa.utils import _MongoDB, _JsonDB
         
         """
         Update the functions depending on the db instance
