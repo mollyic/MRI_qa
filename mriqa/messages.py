@@ -51,7 +51,7 @@ BREAK=    "--------------------------------------------------"
 END = f'\n\n{BREAK}\nSession Ended: all files matching criteria reviewed\n{BREAK}\n\nRating database updated\n\n'
 
 
-REVIEW_FILE = """{output_dir}/{review_id}"""
+REVIEW_FILE = """{output_dir}/MRIqa_{review_id}_{date}"""
 
 
 """
@@ -64,10 +64,18 @@ RATE_ERR = f"\n{BREAK}\nInvalid entry, enter a number from 1-5"
 SES_ERR = "Invalid session, try again:\n"
 
 #Overall rating score key
-SCORES = '1- Unusable      2 - Suboptimal      3 - Acceptable       4 - Above Average     5 - Excellent\n'
+
+OVERALL_MSG= BREAK + "\n\nRate overall image quality rating.\n    *Image: {img}"
+SCORES = """
+
+1- Unusable      2 - Suboptimal      3 - Acceptable       4 - Above Average     5 - Excellent\n"""
 
 #Artifact rating score key
-ART_SCORES = '1 - Severe       2 - Moderately Severe       3 - Moderate        4 - Mild        5 - None\n'
+
+ART_MSG = BREAK +'\n\nRate {artifact} severity.\n    *Image: {img}'
+ART_SCORES = """
+
+1 - Severe       2 - Moderately Severe       3 - Moderate        4 - Mild        5 - None\n"""
 
 #Message for possible rating score
 PICK_SCORE ="Enter rating (1 to 5): "

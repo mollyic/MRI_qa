@@ -68,7 +68,7 @@ class _Config:
         setattr(cls, '_db', db_class._db)                  
         setattr(cls, '_review', db_class._review)                  
         setattr(cls, '_check', db_class._check)                   
-        #setattr(cls, 'artifacts', db_class.artifacts)    
+        #setattr(cls, '_artifacts', db_class._artifacts)    
         try:
             cls.init()
         except AttributeError:
@@ -77,8 +77,8 @@ class _Config:
 class session(_Config):
     user = getpass.getuser()
     """Rater name to be stored"""
-    _time_str = datetime.now().strftime("%d-%m-%Y_%H:%M:%S")     
-    """Date for naming csv or database"""
+    #_time_str = datetime.now().strftime("%Y%m%d_%H:%M:%S")     
+    #"""Date for naming csv or database"""
     bids_dir = None
     """An existing path to the dataset, which must be BIDS-compliant."""
     output_dir = None
@@ -95,7 +95,7 @@ class session(_Config):
     """Start a new review session"""
     artifacts= False
     """Boolean: option to review artifacts or not"""
-    review_id = f"MRIqa_{user}_{_time_str}"
+    review_id = f"MRIqa_{user}"
     """Identifying string for the review session config and output files"""
     inputs = None
     """List of files to be viewed with mriqa."""
@@ -144,7 +144,7 @@ class collector(_Config):
     _db = None
     _check = None
     _review = None
-    _artifacts = None
+    #_artifacts = None
 
 class loggers:
     cli = logging.getLogger("cli")
@@ -163,7 +163,6 @@ def ConsoleToConfig(settings):
     """
     Update the config file with inputted arguments 
     """
-    session.load(settings)
     session.load(settings)
 
 
@@ -188,9 +187,7 @@ def to_filename(filename):
     filename.write_text(dumps())
 
 def load_toml(filename):
-    """
-    Load settings from a TOML file
-    """
+    """Load settings from a TOML file"""
     from toml import loads
     return loads(Path(filename).read_text())
 

@@ -59,7 +59,13 @@ def consoleOptions():
     
     parser.add_argument('--artifacts', '-a',
                         action='store_true', 
+                        default=None,
                         help="R| * Review artifacts.\n ")
+    
+    parser.add_argument('--no-artifact', '-na',
+                        dest="artifacts",
+                        action='store_false', 
+                        help="R| * Disable artifacts if previously selected in config.\n ")     
     
     parser.add_argument("--output_dir",
                         action="store",
@@ -151,24 +157,20 @@ def parse_console(args=None, namespace=None):
     parser = consoleOptions()
     args = parser.parse_args(args, namespace)
     args_dict = vars(args)
-    print(args_dict)
     config_file = config.session.config_file
 
     #Check if any argument was provided that differs from the default
     if os.path.exists(config_file) and not args_dict['_new_review']:
         toml_dict = load_toml(config_file)
-        
-
-        user_inputs = {key: args_dict[key] for key in args_dict if args_dict[key] != parser.get_default(key)}
-        
+        bool_args= ['mongodb', 'artifacts']
+        user_inputs = {key: args_dict[key] for key in args_dict if key not in bool_args if args_dict[key] != parser.get_default(key)}
         for key, val in user_inputs.items():
             toml_dict["session"].update({key: val})
         
-        if isinstance(args_dict['mongodb'], bool):
-            toml_dict["session"].update({'mongodb': args_dict['mongodb']})
-
+        for key in bool_args:
+            if isinstance(args_dict[key], bool):
+                toml_dict["session"].update({key: args_dict[key]})
         config.ConsoleToConfig(toml_dict['session'])
-        
     else: 
         missing = [key for key in ['viewer', 'bids_dir'] if not args_dict[key] if args_dict[key] is None]
         if missing:
