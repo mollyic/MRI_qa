@@ -11,6 +11,7 @@ def main():
 
     parse_console()
 
+    print(config.session.mongodb)
     # Make sure loggers are started
     config.loggers.init()
 

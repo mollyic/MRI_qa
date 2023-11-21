@@ -1,26 +1,32 @@
 from mriqa import config 
 import os 
 import re 
+from argparse import HelpFormatter, ArgumentParser, Action
 
 def _parse_id_strings(value):
     """
     Parse white space separated input id strings, dropping sub- prefix of participant labels
-
     """
     return sorted(set(re.sub(r"^sub-", "", item.strip()) for item in re.split(r"\s+", f"{value}".strip())))
 
 
+class SmartFormatter(HelpFormatter):
+    """
+    Custom argparse formatter
+    """
+    def _split_lines(self, text, width):
+        if text.startswith('R|'):
+            return text[2:].splitlines()  
+        return HelpFormatter._split_lines(self, text, width)
+                        
+
 
 def consoleOptions():
-    from argparse import ArgumentParser
     from pathlib import Path
     from functools import partial
-    from argparse import Action
     
-    parser = ArgumentParser(
-        description=f"""MRIqa tool! 
-                        Tool to review nifti scans. Most settings are configured during execution. \
-                        Optional configurations can be selected via command line arguments below.""")
+    parser = ArgumentParser(formatter_class=lambda prog: SmartFormatter(prog, max_help_position=4, indent_increment =1), 
+                            description="MRIqa tool!\n  Tool to review nifti scans.\n Search parameters for BIDS files can be set using terminal arguments.", )
 
     class LabelAction(Action):
         def __call__(self, parser, namespace, values, option_string=None):
@@ -38,35 +44,42 @@ def consoleOptions():
                         action="store",
                         required=False,
                         type=PathExists,
-                        help="The root folder of a BIDS valid dataset")
+                        help="R| * The root folder of a BIDS valid dataset.\n ")
+
     
     parser.add_argument('--mongodb', '-db',
+                        default=None,
                         action='store_true', 
-                        help="Choice to use MongoDB instance to store output results.")
-     
+                        help="R| * Use MongoDB instance to store output results.\n ")
+    
+    parser.add_argument('--json', '-j',
+                        dest="mongodb",
+                        action='store_false', 
+                        help="R| * Disable mongodb and default to json file database.\n ")     
+    
     parser.add_argument('--artifacts', '-a',
                         action='store_true', 
-                        help="Choice to review artifacts.")
+                        help="R| * Review artifacts.\n ")
     
     parser.add_argument("--output_dir",
                         action="store",
                         default=Path("output").absolute(),
                         type=Path,
-                        help="The directory where the output files should be stored."
+                        help="R| * The directory where the output files should be stored.\n "
                         )
     
     parser.add_argument("-w", "--work-dir",
                         action="store",
                         type=Path,
                         default=Path("work").absolute(),
-                        help="Path where config files should be stored."
+                        help="R| * Path where config files should be stored.\n "
                         )  
       
     parser.add_argument("--db_settings",
                         action="store",
                         type=Path,
                         default=Path(f"mriqa/env/settings.env").absolute(),
-                        help="Path where login settings for mongoDB database are stored."
+                        help="R| * Path where login settings for mongoDB database are stored.\n "
                         ) 
 
     parser.add_argument("-m","--modalities",
@@ -74,22 +87,22 @@ def consoleOptions():
                         choices=config.MODALITIES,
                         default=config.MODALITIES,
                         nargs="*",
-                        help="Filter input dataset by MRI type.")
+                        help="R| * Filter input dataset by MRI type.\n ")
     
     parser.add_argument("--viewer",
                         action="store",
                         choices=config.VIEWERS,
-                        help="Select nifti scan viewer")
+                        help="R| * Select nifti scan viewer.\n ")
 
     parser.add_argument('--new_review', '-new',
                         dest="_new_review",
                         action='store_true', 
-                        help="Choice to start new review session.")
+                        help="R| * Start new review session.\n ")
         
     parser.add_argument("--review_id",
                         action="store",
                         type=str,
-                        help="String for naming output files and config file"
+                        help="R| * String for naming output files and config file.\n "
                         )
     
     parser.add_argument("--session","-s",
@@ -97,27 +110,33 @@ def consoleOptions():
                         dest="session",
                         nargs="*",
                         type=str,
-                        help="Filter input dataset by session ID.")
+                        help="R| * Filter input dataset by session ID.\n ")
     
     parser.add_argument("--participant_label", "-p",
                         dest="participant_label",
                         action=LabelAction,
                         nargs="+",
-                        help="A space delimited list of participant identifiers or a single identifier (the sub- prefix can be removed).")
+                        help="R| * A space delimited list of participant identifiers or a single identifier (the sub- prefix can be removed).\n ")
 
     parser.add_argument("--file_id",
                         "-id",
                         action=LabelAction,
                         nargs="*",
-                        help="A space delimited list of strings used to identify relevant files."
+                        help="R| * A space delimited list of strings used to identify relevant files.\n "
                         )
     parser.add_argument( "-v","--verbose",
-        dest="_log_level",
-        action="store",
-        default=int(20),
-        choices=config.LOG_LVL,
-        help="Increases log verbosity, threshold by information severity: CRITICAL = 50, ERROR = 40,\
-            WARNING = 30, INFO: 20, DEBUG: 10"    )
+                        dest="_log_level",
+                        action="store",
+                        type=int,  
+                        default=20,
+                        choices=config.LOG_LVL,
+                        help="R| * Increases log verbosity, threshold by information severity:\n " 
+                            "   CRITICAL    = 50\n "
+                            "   ERROR       = 40\n "
+                            "   WARNING     = 30\n "
+                            "   INFO        = 20\n "
+                            "   DEBUG       = 10\n ")
+    
     return parser
 
      
@@ -132,20 +151,24 @@ def parse_console(args=None, namespace=None):
     parser = consoleOptions()
     args = parser.parse_args(args, namespace)
     args_dict = vars(args)
-    
+    print(args_dict)
     config_file = config.session.config_file
 
     #Check if any argument was provided that differs from the default
     if os.path.exists(config_file) and not args_dict['_new_review']:
         toml_dict = load_toml(config_file)
         
-        console_input = {key:args_dict[key] for key in args_dict if parser.get_default(key) is None if args_dict[key] is not None}
-        console_default = {key:args_dict[key] for key in args_dict if parser.get_default(key) is not None if args_dict[key] != parser.get_default(key)}
-        update_dict = {**console_input, **console_default}
 
-        for key, val in update_dict.items():
+        user_inputs = {key: args_dict[key] for key in args_dict if args_dict[key] != parser.get_default(key)}
+        
+        for key, val in user_inputs.items():
             toml_dict["session"].update({key: val})
+        
+        if isinstance(args_dict['mongodb'], bool):
+            toml_dict["session"].update({'mongodb': args_dict['mongodb']})
+
         config.ConsoleToConfig(toml_dict['session'])
+        
     else: 
         missing = [key for key in ['viewer', 'bids_dir'] if not args_dict[key] if args_dict[key] is None]
         if missing:
