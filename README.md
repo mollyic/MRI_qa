@@ -1,5 +1,11 @@
 # MRI Quality Assement (MRIqa) Tool 
-The simple MRI rating tool allows users to iterate through nifti files based on a filename criteria and provide a numerical rating that describes the scan quality. It is possible to resume previous rating sessions using the tool. If a previous rating session is selected, only images that are yet to have a rating will be opened for review and all images can be viewed a maximum of 3 times.
+The MRIqa rating tool allows users to iterate through nifti files based on filename criterias and provide a numerical rating to describe the scan quality.
+
+**Features:**
+    * *Ongoing reviews*: previous rating sessions can be resumed to prevent duplicate ratings 
+    * *Database options*: option to store rating sessions in a local json file or using mongodb
+    * *Multiple raters*: resuming a previous session only reviews images that are yet to have a rating
+      for the user or have already been reviewed 3 times 
 
 # Installations 
 
