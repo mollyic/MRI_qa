@@ -19,9 +19,9 @@ Download script files in the terminal opened at a chosen file storage location.
 git clone https://github.com/mollyic/MRI_qa.git
 ```
 
-## Scan viewer
+### Scan viewer
 
-ITK-SNAP, fsleyes or MRview are compatible with the script, only one viewer is required to run the script. They can be downloaded using the links below. 
+ITK-SNAP, fsleyes or MRview are compatible with the script, only one viewer is required. They can be downloaded using the links below:
 
 1. ITK-SNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
 2. fsleyes: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
