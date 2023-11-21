@@ -7,12 +7,12 @@ The MRIqa rating tool allows users to iterate through nifti files based on filen
 - *Multiple raters*: resuming a previous session only reviews images that are yet to have a rating for the user or have already been reviewed 3 times 
 
 # Downloads 
-## [Python installation](mriqa/docs/python.md)
+### [Python installation](mriqa/docs/python.md)
 Python 3.x is required to run the script successfully, details on how to install python can be found in the link above.
 
-## Github download
+### Github download
 
-To run the script, you will need to download the files available on Github. Open a terminal window at the location where you would like to store the files and run the following code.
+Download script files in the terminal opened at a chosen file storage location.
 
 ```
 #clone the repository to your local computer
@@ -21,20 +21,19 @@ git clone https://github.com/mollyic/MRI_qa.git
 
 ## Scan viewer
 
-If you do not already have one of the 3 scan viewers on your system, they can be downloaded using the links below. 
+ITK-SNAP, fsleyes or MRview are compatible with the script, only one viewer is required to run the script. They can be downloaded using the links below. 
 
-1. ITKSNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
+1. ITK-SNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
 2. fsleyes: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
 3. MRview: https://mrtrix.readthedocs.io/en/3.0_rc3/installation/linux_install.html
 
-**Note**: the script only requires that you have one of these scan viewers installed 
-
+**Note**: ITK-SNAP is the preferred viewer as, relative to the other applications, it responds the mostly rapidly within the script.
 
 
 # Setup
 Required packages can be installed using conda, with the provided .yml file, or via pip install.
 
-## conda install 
+### conda install 
 
 **Recommended:** A conda environment helps to manage software versions and ensures they remain compatible with the rating tool. Details on installing conda can be found at https://www.anaconda.com/download. Having downloaded conda, run the following code.
 
@@ -47,7 +46,8 @@ conda activate mriqa_tool
 
 ```
 
-## pip install 
+### pip install 
+Alternatively packages can be installed in your local environment using pip.
 
 ```
 #pip install
@@ -61,7 +61,7 @@ pip3 install pymongo getpass4 python-dotenv
 
 # Optional: MongoDB database
 
-By default the script will save files to a .json file and. However there is the option to store the files using MongoDB. Before running the script, you will need to set the MongoDB credentials in the settings.env file in the environ folder. The file should look like this:
+By default the script will save files to a .json file and. However there is the option to store the files using MongoDB. Before running the script, you will need to set the MongoDB credentials in the settings.env file in the mriqa/env/ folder. The file should look like this:
 
 ```
 MONGO_DB_USRNAME=<username>
