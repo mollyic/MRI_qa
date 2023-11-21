@@ -8,3 +8,5 @@ dependencies:
    - pymongo
    - python-dotenv
    - getpass4
+   - bids
+   - toml

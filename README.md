@@ -65,11 +65,12 @@ After ensuring that Python 3.x is installed successfully, you will need to insta
 **Recommended:** A conda environment helps to manage software versions and ensures they remain compatible with the rating tool. Details on installing conda can be found at https://www.anaconda.com/download. Having downloaded conda, run the following code.
 
 ```
-#pip install
-pip install pymongo getpass4 python-dotenv
+#create environment with conda
+conda env create -f MRIqa_conda.yml
 
-#pip3 install 
-pip3 install pymongo getpass4 python-dotenv
+#activate the conda environment
+conda activate mriqa_tool
+
 ```
 
 ## pip install 
@@ -84,26 +85,12 @@ pip3 install pymongo getpass4 python-dotenv
 
 ## Github download
 
-To run the script, you will need to download the files available on Github:
-
-    mri_rater.py
-    mriqa_marker_objects_20230130.py
-    rating_config.ini
-    settings.env
-    MRIqa_tool.py 
-    MRIqa_config.py 
-    MRIqa_conda.py
-    modules/MRIqa_config.py 
- 
-
-To download these files from Github, create a folder on your local computer to store the files related to the rating tool. Open the terminal at this folder location, on most operating systems this can be achieved by right clicking the new folder and selecting the 'Open in terminal' option. 
-
-When the terminal is open enter the following code to copy the repository from Github onto your local computer
+To run the script, you will need to download the files available on Github. Open a terminal window at the location where you would like to store the files and run the following code.
 
 ```
+#clone the repository to your local computer
 git clone https://github.com/mollyic/MRI_qa.git
 ```
-This should create a folder within your directory that contains all the scripts listed above.
 
 ## Scan viewer
 
@@ -116,9 +103,9 @@ If you do not already have one of the 3 scan viewers on your system, they can be
 **Note**: the script only requires that you have one of these scan viewers installed 
 
 
-# Credentials
+# Optional: MongoDB database
 
-Before running the script, you will need to set the MongoDB credentials in the settings.env file in your newly created folder. The file should look like this:
+By default the script will save files to a .json file and. However there is the option to store the files using MongoDB. Before running the script, you will need to set the MongoDB credentials in the settings.env file in the environ folder. The file should look like this:
 
 ```
 MONGO_DB_USRNAME=<username>
@@ -126,63 +113,76 @@ MONGO_DB_PW=<password>
 ```
 Replace <username> and <password> with the appropriate values for your MongoDB instance.
 
-# Usage 
-To run the script, open a terminal or command prompt in the directory where the files are stored. You can review all files or a single subject, and you can set the search parameters and review parameters in the rating_config.ini file. Then run the following command:
 
+# Usage 
+To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal.
 
     
 ```
-python3 mri_qa-marker.py
+python3 MRIqa_tool.py
 ```
    
-**Note:** if this is the first time running the rating tool, a directory will be created titled 'mri_rating_record'. The .csv and .json files containing your ratings will be stored here. 
+**Note:** if this is the first time running the rating tool, a directory will be created titled 'ratingDB'. The .json files containing your ratings will be stored here. 
+
+
+## MongoDB usage 
+
+If you wish to run the script using MongoDB the argument '-db' should be entered on the command line.
 
 ```
-Directory 'MRI_rating_record' created! Your ratings will be stored here.
+python3 MRIqa_tool.py -db
 ```
+
+
+# Reviewing
+
 Follow the prompts to begin a new session or resume a previous session. 
-  
- ```
+
+```
  Resume a previous session? 
 1 - New session
 2 - Resume previous sessions
- ```
-### 3. New Session selection 
- Choosing a new session will bring up your scan viewer (ITK-SNAP, fsleyes, MRview) in a new window
- 
-**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image to be reviewed will automatically be opened
- 
-### 4. Previous session selection
-Resuming a previous session will prompt you to select the session your wish to resume, enter the number corresponding to the session and press enter. The scan viewer will open the next image to be reviewed.
+ ``` 
+**Note:** Resuming a previous session will prompt you to select the session to resume as shown below, enter the number corresponding to the session and press enter. 
  
  ```
- Selection: 2
+
 1. MRIrate_session-03-08-2021_162134
 2. MRIrate_session-06-08-2021_150826
 3. MRIrate_session-09-08-2021_190512
 Enter session number to resume: 
- ```
- 
- 
-### 5. Entering an overall image quality rating 
-Enter the number corresponding to your overall image quality rating (e.g. 4). This field is mandatory.
- 
- ```
- Enter rating for overall image quality
-1. Very Poor 
-2. Suboptimal 
-3. Acceptable 
-4. Above Average 
-5. Excellent
 
-
-Rating (1 to 5): 4
  ```
 
+**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image to be reviewed will automatically be opened
 
-### 6. Ending the session 
-The session will end automatically when all files are reviewed, to end early input ctrl + C. A .json and .csv file will be automatically created when the session is ended, they will appear in the 'mri_rating_record' folder 
+## Review parameters 
+
+Upon beginning a review session you will be prompted to set your review parameters:
+    1. Input file location 
+    2. Search parameters (e.g. modality-wise)
+    3. Nifti file viewer choice
+
+These settings will be stored for your next review session. You will have the option to change preset parameters each time you begin a review. 
+ 
+## Reviewing overall image quality rating 
+During all review sessions you will enter a numerical score between 1-5 for the image quality as is displayed below.
+ 
+ ```
+ Enter overall image quality rating:
+1. Very Poor    2. Suboptimal   3. Acceptable   4. Above Average    5. Excellent
+
+Rating (1 to 5): 
+ ```
+
+### Optional: Reviewing artifacts
+There is an option to review artifacts (Motion, susceptibilty, ghosting/flow). This required the '-a' argument to be supplied when running the main script. 
 
 ```
-Two files generated (.csv, .json): MRI_rating_record/MRIrate_session-29-06-2022_16:34:19
+python3 MRIqa_tool.py -a
 ```
+
+
+## Ending the session 
+The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the existing or new .json file appear in the 'reviweDB' folder 
+
