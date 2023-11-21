@@ -6,64 +6,33 @@ The MRIqa rating tool allows users to iterate through nifti files based on filen
 - *Database options*: option to store rating sessions in a local json file or using mongodb
 - *Multiple raters*: resuming a previous session only reviews images that are yet to have a rating for the user or have already been reviewed 3 times 
 
-# Installations 
+# Downloads 
+## [Python installation](mriqa/docs/python.md)
+Python 3.x is required to run the script successfully, details on how to install python can be found in the link above.
 
-## Python
+## Github download
 
-### Windows & Mac:
-Here are the steps to install Python and add it to your system's PATH:
-
-- Download that latest official version of Python https://www.python.org/downloads/.
-- Choose the appropriate installer for your operating system (Windows: Windows x86-64 executable installer, macOS: macOS 64-bit installer)
-- Run the installer, ensuring that you select "Add Python to PATH" during the installation
-- After the installation has finisihed, open a terminal window and enter "python" to test that it is callable from the terminal 
-
-
-### Linux:
-
-Open a terminal window and install Python by running the following commands:
-
+To run the script, you will need to download the files available on Github. Open a terminal window at the location where you would like to store the files and run the following code.
 
 ```
-sudo apt update
-sudo apt install python3
+#clone the repository to your local computer
+git clone https://github.com/mollyic/MRI_qa.git
 ```
 
-Verify that Python has been installed correctly by entering the following command:
+## Scan viewer
+
+If you do not already have one of the 3 scan viewers on your system, they can be downloaded using the links below. 
+
+1. ITKSNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
+2. fsleyes: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
+3. MRview: https://mrtrix.readthedocs.io/en/3.0_rc3/installation/linux_install.html
+
+**Note**: the script only requires that you have one of these scan viewers installed 
 
 
-```
-python3 --version
-```
-
-Add Python to your PATH by opening the ~/.bashrc file in your home directory:
-
-```
-nano ~/.bashrc
-```
-
-Add the following line to the end of the file:
-
-```
-export PATH=$PATH:/usr/bin/python3
-```
-
-
-Save the changes and exit the editor and reload your bashrc file so the changes take effect: 
-
-```
-source ~/.bashrc
-```
-
-Test that python was successfully installed by calling python in the terminal:
-```
-python3
-```
 
 # Setup
-
-After ensuring that Python 3.x is installed successfully, you will need to install the required packages for the script to run. You can do this using either using conda, with the provided .yml file, or via pip install.
-
+Required packages can be installed using conda, with the provided .yml file, or via pip install.
 
 ## conda install 
 
@@ -88,24 +57,6 @@ pip install pymongo getpass4 python-dotenv
 pip3 install pymongo getpass4 python-dotenv
 ```
 
-## Github download
-
-To run the script, you will need to download the files available on Github. Open a terminal window at the location where you would like to store the files and run the following code.
-
-```
-#clone the repository to your local computer
-git clone https://github.com/mollyic/MRI_qa.git
-```
-
-## Scan viewer
-
-If you do not already have one of the 3 scan viewers on your system, they can be downloaded using the links below. 
-
-1. ITKSNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
-2. fsleyes: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
-3. MRview: https://mrtrix.readthedocs.io/en/3.0_rc3/installation/linux_install.html
-
-**Note**: the script only requires that you have one of these scan viewers installed 
 
 
 # Optional: MongoDB database
