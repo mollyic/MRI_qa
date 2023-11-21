@@ -1,6 +1,6 @@
 from mriqa import messages
 from mriqa import config
-from mriqa.environ import parse_console
+from mriqa.env import parse_console
 import subprocess
 import pprint
 import json 

@@ -87,7 +87,7 @@ class session(_Config):
     """Path to a working directory where intermediate results will be available."""
     mongodb = False
     """Optional use of mongodb"""
-    db_settings = Path(f"mriqa/environ/settings.env").absolute()
+    db_settings = Path(f"mriqa/env/settings.env").absolute()
     """MongoDB login settings file"""
     viewer= None
     """Nifti file viewer"""

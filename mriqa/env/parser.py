@@ -65,7 +65,7 @@ def consoleOptions():
     parser.add_argument("--db_settings",
                         action="store",
                         type=Path,
-                        default=Path(f"mriqa/environ/settings.env").absolute(),
+                        default=Path(f"mriqa/env/settings.env").absolute(),
                         help="Path where login settings for mongoDB database are stored."
                         ) 
 
