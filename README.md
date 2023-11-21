@@ -2,10 +2,9 @@
 The MRIqa rating tool allows users to iterate through nifti files based on filename criterias and provide a numerical rating to describe the scan quality.
 
 **Features:**
-    * *Ongoing reviews*: previous rating sessions can be resumed to prevent duplicate ratings 
-    * *Database options*: option to store rating sessions in a local json file or using mongodb
-    * *Multiple raters*: resuming a previous session only reviews images that are yet to have a rating
-      for the user or have already been reviewed 3 times 
+- *Ongoing reviews*: previous rating sessions can be resumed to prevent duplicate ratings 
+- *Database options*: option to store rating sessions in a local json file or using mongodb
+- *Multiple raters*: resuming a previous session only reviews images that are yet to have a rating for the user or have already been reviewed 3 times 
 
 # Installations 
 
