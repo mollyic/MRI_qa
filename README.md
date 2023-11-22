@@ -94,21 +94,21 @@ python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id grou
 ### BIDS database search
 Filtering of input files is possible with the use of 4 terminal arguments. By default mriqa will only search for structural T1w, T2w and FLAIR scans in the 'anat' folder
 
-1. File id: Filter input dataset by string using a space delimited list
+1. **File id**: Filter input dataset by string using a space delimited list
 ```
 python3 mriqa.py --file_id preproc
 python3 mriqa.py -id preproc grappa
 ```
-2. Modality: Filter input dataset by modality using a space delimited list
+2. **Modality**: Filter input dataset by modality using a space delimited list
 ```
 python3 mriqa.py --modalities T1w
 python3 mriqa.py -m T1w FLAIR
 ```
-3. Session: Filter input dataset by session ID using a space delimited list
+3. **Session**: Filter input dataset by session ID using a space delimited list
 ```
 python3 mriqa.py -ses 01 02
 ```
-4. Subject ID: Filter input dataset by subject ID using a space delimited list
+4. **Subject ID**: Filter input dataset by subject ID using a space delimited list
 ```
 python3 mriqa.py --sub_id 1005
 python3 mriqa.py --s 1005 4005
@@ -118,35 +118,34 @@ python3 mriqa.py --s 1005 4005
 
 
 ### User config file
-When you first use the script a config file will be created in the work directory (*mriqa_config.toml*) saving the review session search parameters. These settings will be loaded automatically when you run the script agin. 
+When you first use the script a config file will be created in the work directory (*mriqa_config.toml*) saving the review session search parameters. These settings will be loaded automatically when you run the script agin. If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal 
 
-- Changing settings: if you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal 
+- **Changing settings**: changing search parameters, directory paths or string identifier in config file
 ```
 python3 mriqa.py --bids_dir <path/to/bids/files> --file_id lowres --viewer mrview
 ``` 
-- Changing database: change the database settings in config file
+- **Changing database**: changing the database settings in config file
 ```
 #change to MongoDB database
 python3 mriqa.py --mongodb
-
 #revert to json database
 python3 mriqa.py --json
-``
-- Reviewing artifacts: change the artifacts review settings in config file
+```
+- **Reviewing artifacts**: changing the artifact review settings in config file
 ```
 #Review artifacts
 python3 mriqa.py -a
 
 #Disable review of artifacts
 python3 mriqa.py -na
-``
+```
 
 **Note:** there is no interaction between MongoDB databases and local .json files, changing to a new database will not import the reviews from the previous database
 
 
 ### Resume session
 
-If there are review files in the output directory or in your MongoDB database, you will be promped to select the session to resume entering the number corresponding to the session. 
+If there are review files in the output directory or in your MongoDB database, select the session to resume entering the corresponding number. 
  
  ```
 
@@ -159,15 +158,13 @@ Enter session number to resume:
 
 ### Force new session
 
-To start a new session when previous ratings exist the -n argument should be entered in the command line. This will recreate the config file from scratch meaning the mandatory arguments of 'bids_dir' and 'viewer' must be entered
+To start a new session when previous ratings exist the *-new* argument should be entered in the command line. This will recreate the config file from scratch meaning the mandatory arguments of 'bids_dir' and 'viewer' must be entered.
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap -new
-
 ```
 
 # Interface
-
 
 ### Reviewing overall image quality rating 
 During all review sessions a numerical score between 1-5 for each scan is required.
