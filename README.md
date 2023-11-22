@@ -90,8 +90,6 @@ python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id grou
 
 **Note:** if this is the first time running the rating tool, an output directory containing the rating results and a work directory containing the config file will be created.
 
-**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image will open automatically
-
 
 ### BIDS database search
 Filtering of input files is possible with the use of 4 terminal arguments. By default mriqa will only search for structural T1w, T2w and FLAIR scans in the 'anat' folder
@@ -182,7 +180,7 @@ Rate overall image quality rating.
 1- Unusable      2 - Suboptimal      3 - Acceptable       4 - Above Average     5 - Excellent
 
 Enter rating (1 to 5): 
- ```
+```
 
 ### Optional: Reviewing artifacts
 If the -a argument is provided a numerical score between 1-5 for each artifact type is required.
@@ -197,6 +195,7 @@ Rate SUSCEPTIBILITY severity.
 Enter rating (1 to 5): 
 ```
 
+**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image will open automatically
 
 ### Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the existing or new .json file and results from the MongoDB database will be downloaded as a .json file with the prefix 'mongodb-import'
