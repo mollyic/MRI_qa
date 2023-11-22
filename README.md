@@ -83,7 +83,6 @@ To run the script, open a terminal or command prompt in the directory where the 
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts
-```
 #Run using MongoDB
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts --mongodb
 ```
