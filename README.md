@@ -8,7 +8,7 @@ The MRIqa rating tool allows users to iterate through nifti files based on filen
 
 # Downloads 
 ### [Python installation](mriqa/docs/python.md)
-Python 3.x is required to run the script successfully, details on how to install python can be found in the link above.
+Python 3.x is required to run the script successfully, details on how to install python can be found in the hyperlinked title.
 
 ### Github download
 
@@ -21,7 +21,7 @@ git clone https://github.com/mollyic/MRI_qa.git
 
 ### Scan viewer
 
-ITK-SNAP, fsleyes or MRview are compatible with the script, only one viewer is required. They can be downloaded using the links below:
+ITK-SNAP, fsleyes or MRview are compatible with the script, only one viewer is required.
 
 1. ITK-SNAP: http://www.itksnap.org/pmwiki/pmwiki.php?n=Documentation.TutorialSectionInstallation
 2. fsleyes: https://fsl.fmrib.ox.ac.uk/fsl/fslwiki/FslInstallation
@@ -152,7 +152,7 @@ If there are review files in the output directory or in your MongoDB database, s
 2. MRIrate_session-06-08-2021_150826
 3. MRIrate_session-09-08-2021_190512
 Enter session number to resume: 
- ```
+```
 
 ### Force new session
 
