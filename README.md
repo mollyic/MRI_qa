@@ -43,7 +43,6 @@ conda env create -f MRIqa_conda.yml
 
 #activate the conda environment
 conda activate mriqa_tool
-
 ```
 
 ### pip install 
@@ -52,7 +51,6 @@ Alternatively packages can be installed in your local environment using pip.
 ```
 #pip install
 pip install pymongo getpass4 python-dotenv bids toml
-
 ```
 
 
@@ -70,8 +68,8 @@ Using a MongoDB database relies on settings.env file in the mriqa/env/ folder. W
 MONGODB_USRNAME=<username>
 MONGODB_PW=<password>
 MONGODB_HOST=<password>
-
 ```
+
 **Note:** if no value is input for <MONGODB_HOST>, the default value of 'localhost' will be used.
 
 # Usage 
@@ -85,14 +83,10 @@ To run the script, open a terminal or command prompt in the directory where the 
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts
-
 ```
-To run using MongoDB:
-
-```
+#Run using mongodb
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts --mongodb
 ```
-
 
 **Note:** if this is the first time running the rating tool, an output directory containing the rating results and a work directory containing the config file will be created.
 
