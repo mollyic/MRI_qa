@@ -164,6 +164,10 @@ python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap -new
 
 # Interface
 
+For each scan the viewer will open and you will be prompted to enter a review scores. 
+
+**Note:** Do not close your scan viewer during the review session, after your review has been entered the current image will be closed and the next image will open automatically
+
 ### Reviewing overall image quality rating 
 During all review sessions a numerical score between 1-5 for each scan is required.
  
@@ -190,7 +194,6 @@ Rate SUSCEPTIBILITY severity.
 Enter rating (1 to 5): 
 ```
 
-**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image will open automatically
 
 ### Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the .json file or MongoDB database. Results from the MongoDB database will be automatically downloaded as a .json file with the prefix 'mongodb-import'
