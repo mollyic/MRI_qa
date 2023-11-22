@@ -45,7 +45,7 @@ def main():
             if not db.check(img = bn(file)):
               continue
 
-            #subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+            subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
             db.review(img = bn(file))
                     
             kill_process(viewer)        
