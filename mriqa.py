@@ -39,7 +39,7 @@ def main():
     """Instantiate either dict object or mongodb database to store ratings"""
     config.collector.func_finder()      
     db = reviewer()
-
+    user_exit = False
     try: 
         for file in files:                        
             if not db.check(img = bn(file)):
@@ -50,9 +50,13 @@ def main():
                     
             kill_process(viewer)        
     except KeyboardInterrupt:
+        user_exit = True
+        config.loggers.cli.log(30, messages.USR_END.format(filename = db.filename))
         pass 
 
-    config.loggers.cli.log(30, messages.END)
+    if not user_exit:
+        config.loggers.cli.log(30, messages.END.format(filename = db.filename))
+
     if db.max_reviews or db.rater_reviewed:
         config.loggers.cli.log(30, messages.REVIEWED.format(user = user,
                                                             max_reviewed = db.max_reviews, 

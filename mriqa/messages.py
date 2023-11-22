@@ -48,12 +48,17 @@ FORMATTING MESSAGES
 BREAK=    "--------------------------------------------------"
 
 #End message
-END = f'\n\n{BREAK}\nSession Ended: all files matching criteria reviewed\n{BREAK}'
+END = f'\n\n{BREAK}' +"""
+Session ended: all files matching criteria reviewed
+   * Results stored in {filename}""" + f'\n{BREAK}'
+
+USR_END =  f'\n\n{BREAK}' +"""
+Session ended by user:
+   * Results stored in {filename}""" + f'\n{BREAK}'
+
 
 #Already reviewed
 REVIEWED = """
-
-
 User {user} did not review the following files.
 
     * Files previously reviewed by {user}:
@@ -61,10 +66,6 @@ User {user} did not review the following files.
 
     * Files already reviewed by 3 users:
 {max_reviewed}
-
-
-
-Rating database updated.
 
 """
 
