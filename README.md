@@ -3,7 +3,7 @@ The MRIqa rating tool allows users to iterate through nifti files based on filen
 
 **Features:**
 - *Ongoing reviews*: previous rating sessions can be resumed to prevent duplicate ratings 
-- *Database options*: option to store rating sessions in a local json file or using mongodb
+- *Database options*: option to store rating sessions in a local json file or using MongoDB
 - *Multiple raters*: resuming a previous session only reviews images that are yet to have a rating for the user or have already been reviewed 3 times 
 
 # Downloads 
@@ -61,7 +61,7 @@ pip install pymongo getpass4 python-dotenv bids toml
 By default the script will save files to a .json file in the output directory. output/ is the default directory unless specified using the argument --output_dir. 
 
 
-### mongoDB
+### MongoDB
 Using a MongoDB database relies on settings.env file in the mriqa/env/ folder. When you first run the script you will be prompted to enter a username, password and host address which will be stored in the mriqa/env/settings.env file.
 
 ```
@@ -84,7 +84,7 @@ To run the script, open a terminal or command prompt in the directory where the 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts
 ```
-#Run using mongodb
+#Run using MongoDB
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts --mongodb
 ```
 
@@ -128,7 +128,7 @@ python3 mriqa.py --bids_dir <path/to/bids/files> --file_id lowres --viewer mrvie
 ``` 
 - Changing database: change the database settings in config file
 ```
-#change to mongodb database
+#change to MongoDB database
 python3 mriqa.py --mongodb
 
 #revert to json database
