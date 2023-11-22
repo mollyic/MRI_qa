@@ -8,7 +8,7 @@ The MRIqa rating tool allows users to iterate through nifti files based on filen
 
 # Downloads 
 ### [Python installation](mriqa/docs/python.md)
-Python 3.x is required to run the script successfully, details on how to install python can be found in the hyperlinked title.
+Python 3.x is required to run the script, details on how to install python can be found in the hyperlinked title.
 
 ### Github download
 
@@ -84,7 +84,7 @@ To run the script, open a terminal or command prompt in the directory where the 
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts
-#Run using MongoDB
+#Run using MongoDB database
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts --mongodb
 ```
 
