@@ -61,8 +61,8 @@ def _artifacts(img):
     return rating
 
 class _JsonDB:
+    
     def _db():
-        
         results_dir = config.session.output_dir
         new_review = config.session._new_review
 
@@ -72,9 +72,7 @@ class _JsonDB:
             with open(filename, "r") as file:
                 collection = defaultdict(dict, json.load(file))             #returns JSON object as dictionary  
         else: 
-            filename = messages.REVIEW_FILE.format(output_dir = results_dir, 
-                                                   review_id = config.session.review_id, 
-                                                   date =time_str) + '.json'
+            filename = f"{results_dir}/{messages.REVIEW_FILE.format(review_id = config.session.review_id, date =time_str)}.json"
             collection = defaultdict(dict)
 
         return collection, filename
@@ -109,33 +107,40 @@ class _JsonDB:
 class _MongoDB:
 
     def _db():
-        load_dotenv(config.session.db_settings)                                 #load .env file with mongodb credentials
-        client = MongoClient(host="localhost", port=27017, username=os.getenv('MONGO_DB_USRNAME'), password=os.getenv('MONGO_DB_PW'))
-
-        db = client["image_ratings"]
-        collections = [collec for collec in db.list_collection_names()]
-
+        from mriqa.utils import create_mongo_env
         new_review = config.session._new_review
+
+        if not config.session.db_settings.exists():
+            print('No settings file found. Provide MongoDB details to save to settings.env files.')
+            create_mongo_env()
+
+        load_dotenv(config.session.db_settings)                                 #load .env file with mongodb credentials
         
+        client = MongoClient(host=os.getenv('MONGODB_HOST'), port=27017, username=os.getenv('MONGODB_USRNAME'), password=os.getenv('MONGODB_PW'))
+        db = client["yds"]
 
+        # TROUBLESHOOTING: drop mongodbs
+        # for d in db.list_collection_names():
+        #     db[d].drop()
+
+        collections = [collec for collec in db.list_collection_names()]
         if not new_review and len(collections) >= 1:
-            review_id = list_collections(collections=collections)
+            db_name = list_collections(collections=collections)
         else:
-            review_id = config.session.review_id
+            db_name = f"{messages.REVIEW_FILE.format(review_id = config.session.review_id, date =time_str)}"
 
-        collection = db[review_id]
-        return collection, review_id
+        collection = db[db_name]
+        return collection, db_name
     
 
 
     def _check(img, collection, max_reviews, rater_reviewed):
-        global user
 
         in_dict = collection.find_one({"scan_id": img})
         if in_dict:
             if in_dict["review_count"] >= 3: #scans reviewed >3 times
                 max_reviews.append(img)
-            if collection.find_one({'ratings.user': user, "scan_id": img}): #scans reviewed >3 times
+            if collection.find_one({'ratings.user': config.session.user, "scan_id": img}): #scans reviewed >3 times
                 rater_reviewed.append(img)
 
         review = True if img not in max_reviews + rater_reviewed else False

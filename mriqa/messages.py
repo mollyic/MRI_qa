@@ -11,14 +11,14 @@ MRIqa tool: input files will be filtered by search parameters.
     * Dataset: {bids_dir}
     * Output folder: {output_dir}.
     * Viewer: {viewer}
-    * Review session ID: {review_id}
+    * User: {user}
 
     Search parameters:     
 """
 
 #Possible search parameters for BIDS folder search
 SEARCH_BIDS = {'Session':'session', 'Modalities':'modalities', 
-               'Participant label':'participant_label', 'Search string':'file_id'}
+               'Participant label':'sub_id', 'Search string':'file_id'}
 
 #Missing terminal inputs (required: bids_dir, viewer)
 NO_INDIR = """
@@ -48,10 +48,27 @@ FORMATTING MESSAGES
 BREAK=    "--------------------------------------------------"
 
 #End message
-END = f'\n\n{BREAK}\nSession Ended: all files matching criteria reviewed\n{BREAK}\n\nRating database updated\n\n'
+END = f'\n\n{BREAK}\nSession Ended: all files matching criteria reviewed\n{BREAK}'
+
+#Already reviewed
+REVIEWED = """
 
 
-REVIEW_FILE = """{output_dir}/MRIqa_{review_id}_{date}"""
+User {user} did not review the following files.
+
+    * Files previously reviewed by {user}:
+{user_reviewed}
+
+    * Files already reviewed by 3 users:
+{max_reviewed}
+
+
+
+Rating database updated.
+
+"""
+
+REVIEW_FILE = """MRIqa_{review_id}_{date}"""
 
 
 """

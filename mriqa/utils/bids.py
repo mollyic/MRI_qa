@@ -1,12 +1,12 @@
 
 
-def collect_files(layout,bids_type,participant_label=None,session=None,file_id=None):
+def collect_files(layout,bids_type,sub_id=None,session=None,file_id=None):
     from bids.utils import listify
     import re
     """Get files in dataset"""
 
     basequery = {
-        "subject": participant_label,
+        "subject": sub_id,
         "session": session,
         "datatype": "anat",
         "return_type": "file",

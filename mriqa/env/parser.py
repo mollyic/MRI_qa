@@ -5,7 +5,7 @@ from argparse import HelpFormatter, ArgumentParser, Action
 
 def _parse_id_strings(value):
     """
-    Parse white space separated input id strings, dropping sub- prefix of participant labels
+    Parse white space separated input id strings, dropping sub- prefix 
     """
     return sorted(set(re.sub(r"^sub-", "", item.strip()) for item in re.split(r"\s+", f"{value}".strip())))
 
@@ -42,10 +42,61 @@ def consoleOptions():
 
     parser.add_argument("--bids_dir","-d",
                         action="store",
-                        required=False,
                         type=PathExists,
                         help="R| * The root folder of a BIDS valid dataset.\n ")
+    
 
+    parser.add_argument("--viewer",
+                        action="store",
+                        choices=config.VIEWERS,
+                        help="R| * Select nifti scan viewer.\n ")
+
+    parser.add_argument("--file_id",
+                        "-id",
+                        action=LabelAction,
+                        nargs="*",
+                        help="R| FILE SEARCH PARAMETER:                                     Space delimited list of strings to specify input files.\n "
+                        )
+
+    parser.add_argument("-m","--modalities",
+                        action="store",
+                        choices=config.MODALITIES,
+                        default=config.MODALITIES,
+                        nargs="*",
+                        help="R| * FILE SEARCH PARAMETER:                                     Filter input dataset by MRI type.\n ")    
+    
+    parser.add_argument("-ses",
+                        action="store",
+                        dest="session",
+                        nargs="*",
+                        type=str,
+                        help="R| * FILE SEARCH PARAMETER:                                     Filter input dataset by session ID.\n ")
+    
+    parser.add_argument("--sub_id", "-s",
+                        dest="sub_id",
+                        action=LabelAction,
+                        nargs="+",
+                        help="R| * FILE SEARCH PARAMETER:                                     Space delimited list of subject ids or a single id.\n ")
+
+    parser.add_argument("--output_dir",
+                        action="store",
+                        default=Path("output").absolute(),
+                        type=Path,
+                        help="R| * The directory where the output files should be stored.\n "
+                        )
+    
+    parser.add_argument("-w", "--work-dir",
+                        action="store",
+                        type=Path,
+                        default=Path("work").absolute(),
+                        help="R| * Path where config files should be stored.\n "
+                        )  
+
+    parser.add_argument("--review_id",
+                        action="store",
+                        type=str,
+                        help="R| * String for naming output files and config file.\n "
+                        )
     
     parser.add_argument('--mongodb', '-db',
                         default=None,
@@ -66,20 +117,6 @@ def consoleOptions():
                         dest="artifacts",
                         action='store_false', 
                         help="R| * Disable artifacts if previously selected in config.\n ")     
-    
-    parser.add_argument("--output_dir",
-                        action="store",
-                        default=Path("output").absolute(),
-                        type=Path,
-                        help="R| * The directory where the output files should be stored.\n "
-                        )
-    
-    parser.add_argument("-w", "--work-dir",
-                        action="store",
-                        type=Path,
-                        default=Path("work").absolute(),
-                        help="R| * Path where config files should be stored.\n "
-                        )  
       
     parser.add_argument("--db_settings",
                         action="store",
@@ -87,49 +124,12 @@ def consoleOptions():
                         default=Path(f"mriqa/env/settings.env").absolute(),
                         help="R| * Path where login settings for mongoDB database are stored.\n "
                         ) 
-
-    parser.add_argument("-m","--modalities",
-                        action="store",
-                        choices=config.MODALITIES,
-                        default=config.MODALITIES,
-                        nargs="*",
-                        help="R| * Filter input dataset by MRI type.\n ")
     
-    parser.add_argument("--viewer",
-                        action="store",
-                        choices=config.VIEWERS,
-                        help="R| * Select nifti scan viewer.\n ")
-
     parser.add_argument('--new_review', '-new',
                         dest="_new_review",
                         action='store_true', 
                         help="R| * Start new review session.\n ")
         
-    parser.add_argument("--review_id",
-                        action="store",
-                        type=str,
-                        help="R| * String for naming output files and config file.\n "
-                        )
-    
-    parser.add_argument("--session","-s",
-                        action="store",
-                        dest="session",
-                        nargs="*",
-                        type=str,
-                        help="R| * Filter input dataset by session ID.\n ")
-    
-    parser.add_argument("--participant_label", "-p",
-                        dest="participant_label",
-                        action=LabelAction,
-                        nargs="+",
-                        help="R| * A space delimited list of participant identifiers or a single identifier (the sub- prefix can be removed).\n ")
-
-    parser.add_argument("--file_id",
-                        "-id",
-                        action=LabelAction,
-                        nargs="*",
-                        help="R| * A space delimited list of strings used to identify relevant files.\n "
-                        )
     parser.add_argument( "-v","--verbose",
                         dest="_log_level",
                         action="store",
@@ -142,7 +142,10 @@ def consoleOptions():
                             "   WARNING     = 30\n "
                             "   INFO        = 20\n "
                             "   DEBUG       = 10\n ")
-    
+    parser.add_argument("--user",
+                        action="store",
+                        type=str,
+                        help="R| * Set username for troubleshooting (default is the system username).\n ")    
     return parser
 
      
@@ -186,21 +189,21 @@ def parse_console(args=None, namespace=None):
     # Force initialization of the BIDSLayout
     config.session.init()
 
-    participant_label = config.session.layout.get_subjects()
-    if config.session.participant_label is not None:
-        selected_label = set(config.session.participant_label)
-        missing_subjects = selected_label - set(participant_label)
+    sub_id = config.session.layout.get_subjects()
+    if config.session.sub_id is not None:
+        selected_label = set(config.session.sub_id)
+        missing_subjects = selected_label - set(sub_id)
         if missing_subjects:
-                print("One or more participant labels were not found in the BIDS directory: "
+                print("One or more subject identifiers were not found in the BIDS directory: "
                 f"{', '.join(missing_subjects)}.")
 
-        participant_label = selected_label
+        sub_id = selected_label
 
-    config.session.participant_label = sorted(participant_label)
+    config.session.sub_id = sorted(sub_id)
 
     # List of files to be run
     bids_filters = {
-        "participant_label": config.session.participant_label,
+        "sub_id": config.session.sub_id,
         "session": config.session.session,
         "bids_type": config.session.modalities,
         "file_id": config.session.file_id}

@@ -68,7 +68,6 @@ class _Config:
         setattr(cls, '_db', db_class._db)                  
         setattr(cls, '_review', db_class._review)                  
         setattr(cls, '_check', db_class._check)                   
-        #setattr(cls, '_artifacts', db_class._artifacts)    
         try:
             cls.init()
         except AttributeError:
@@ -77,8 +76,7 @@ class _Config:
 class session(_Config):
     user = getpass.getuser()
     """Rater name to be stored"""
-    #_time_str = datetime.now().strftime("%Y%m%d_%H:%M:%S")     
-    #"""Date for naming csv or database"""
+
     bids_dir = None
     """An existing path to the dataset, which must be BIDS-compliant."""
     output_dir = None
@@ -95,7 +93,7 @@ class session(_Config):
     """Start a new review session"""
     artifacts= False
     """Boolean: option to review artifacts or not"""
-    review_id = f"MRIqa_{user}"
+    review_id = f"{user}"
     """Identifying string for the review session config and output files"""
     inputs = None
     """List of files to be viewed with mriqa."""
@@ -105,8 +103,8 @@ class session(_Config):
     """
     modalities = None
     """Filter input dataset by MRI type."""
-    participant_label = None
-    """List of participant identifiers that are to be preprocessed."""    
+    sub_id = None
+    """List of subject ids that are to be preprocessed."""  
     file_id = None
     """Filter input dataset by string """
     session = None
@@ -130,9 +128,9 @@ class session(_Config):
                 # Ignore all files, except for the supported modalities
                 re.compile(r"^.+(?<!(_T1w|_T2w|LAIR))\.(json|nii|nii\.gz)$"),]
 
-            if cls.participant_label:
+            if cls.sub_id:
                 # If we know participant labels, ignore all other
-                ignore_paths[0] = re.compile(r"^(?!/sub-("+ "|".join(cls.participant_label)+ r"))")
+                ignore_paths[0] = re.compile(r"^(?!/sub-("+ "|".join(cls.sub_id)+ r"))")
 
             _indexer = BIDSLayoutIndexer(validate=False,ignore=ignore_paths)
             cls._layout = BIDSLayout(str(cls.bids_dir),indexer=_indexer)
@@ -144,7 +142,6 @@ class collector(_Config):
     _db = None
     _check = None
     _review = None
-    #_artifacts = None
 
 class loggers:
     cli = logging.getLogger("cli")
@@ -160,9 +157,7 @@ class loggers:
         return getattr(cls, name)
 
 def ConsoleToConfig(settings):
-    """
-    Update the config file with inputted arguments 
-    """
+    """Update the config file with inputted arguments """
     session.load(settings)
 
 

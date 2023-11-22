@@ -51,55 +51,110 @@ Alternatively packages can be installed in your local environment using pip.
 
 ```
 #pip install
-pip install pymongo getpass4 python-dotenv
-
-#pip3 install 
-pip3 install pymongo getpass4 python-dotenv
-```
-
-
-
-# Optional: MongoDB database
-
-By default the script will save files to a .json file and. However there is the option to store the files using MongoDB. Before running the script, you will need to set the MongoDB credentials in the settings.env file in the mriqa/env/ folder. The file should look like this:
+pip install pymongo getpass4 python-dotenv bids toml
 
 ```
-MONGO_DB_USRNAME=<username>
-MONGO_DB_PW=<password>
-```
-Replace <username> and <password> with the appropriate values for your MongoDB instance.
 
+
+# Databases
+
+### .json file
+
+By default the script will save files to a .json file in the output directory. output/ is the default directory unless specified using the argument --output_dir. 
+
+
+### mongoDB
+Using a MongoDB database relies on settings.env file in the mriqa/env/ folder. When you first run the script you will be prompted to enter a username, password and host address which will be stored in the mriqa/env/settings.env file.
+
+```
+MONGODB_USRNAME=<username>
+MONGODB_PW=<password>
+MONGODB_HOST=<password>
+
+```
+**Note:** if no value is input for <MONGODB_HOST>, the default value of 'localhost' will be used.
 
 # Usage 
-To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal.
 
-    
-```
-python3 MRIqa_tool.py
-```
-   
-**Note:** if this is the first time running the rating tool, a directory will be created titled 'ratingDB'. The .json files containing your ratings will be stored here. 
-
-
-## MongoDB usage 
-
-If you wish to run the script using MongoDB the argument '-db' should be entered on the command line.
+### Run
+To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default the database is a local .json file in the output folder and its name will be augmented by the --review_id argument if it is provided.
+- bids_dir: path to scans for review
+- viewer: scan viewer software (itksnap/mrview/fsleyes)
+- review_id (*OPTIONAL*): user inputted string used to name the review session 
+- artifacts (*OPTIONAL*): option to review artifacts seperately to the overall rating (motion, susceptibility, ghosting/flow)
 
 ```
-python3 MRIqa_tool.py -db
+python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts
+
+```
+To run using MongoDB:
+
+```
+python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts --mongodb
 ```
 
 
-# Reviewing
+**Note:** if this is the first time running the rating tool, an output directory containing the rating results and a work directory containing the config file will be created.
 
-Follow the prompts to begin a new session or resume a previous session. 
+**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image will open automatically
 
+
+### BIDS database search
+Filtering of input files is possible with the use of 4 terminal arguments. By default mriqa will only search for structural T1w, T2w and FLAIR scans in the 'anat' folder
+
+1. File id: Filter input dataset by string using a space delimited list
 ```
- Resume a previous session? 
-1 - New session
-2 - Resume previous sessions
- ``` 
-**Note:** Resuming a previous session will prompt you to select the session to resume as shown below, enter the number corresponding to the session and press enter. 
+python3 mriqa.py --file_id preproc
+python3 mriqa.py -id preproc grappa
+```
+2. Modality: Filter input dataset by modality using a space delimited list
+```
+python3 mriqa.py --modalities T1w
+python3 mriqa.py -m T1w FLAIR
+```
+3. Session: Filter input dataset by session ID using a space delimited list
+```
+python3 mriqa.py -ses 01 02
+```
+4. Subject ID: Filter input dataset by subject ID using a space delimited list
+```
+python3 mriqa.py --sub_id 1005
+python3 mriqa.py --s 1005 4005
+```  
+
+**Note:** these filters are additive meaning any file not meeting one of these criteria will be excluded
+
+
+### User config file
+When you first use the script a config file will be created in the work directory (*mriqa_config.toml*) saving the review session search parameters. These settings will be loaded automatically when you run the script agin. 
+
+- Changing settings: if you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal 
+```
+python3 mriqa.py --bids_dir <path/to/bids/files> --file_id lowres --viewer mrview
+``` 
+- Changing database: change the database settings in config file
+```
+#change to mongodb database
+python3 mriqa.py --mongodb
+
+#revert to json database
+python3 mriqa.py --json
+``
+- Reviewing artifacts: change the artifacts review settings in config file
+```
+#Review artifacts
+python3 mriqa.py -a
+
+#Disable review of artifacts
+python3 mriqa.py -na
+``
+
+**Note:** there is no interaction between MongoDB databases and local .json files, changing to a new database will not import the reviews from the previous database
+
+
+### Resume session
+
+If there are review files in the output directory or in your MongoDB database, you will be promped to select the session to resume entering the number corresponding to the session. 
  
  ```
 
@@ -110,35 +165,45 @@ Enter session number to resume:
 
  ```
 
-**Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image to be reviewed will automatically be opened
+### Force new session
 
-## Review parameters 
+To start a new session when previous ratings exist the -n argument should be entered in the command line. This will recreate the config file from scratch meaning the mandatory arguments of 'bids_dir' and 'viewer' must be entered
 
-Upon beginning a review session you will be prompted to set your review parameters:
-    1. Input file location 
-    2. Search parameters (e.g. modality-wise)
-    3. Nifti file viewer choice
+```
+python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap -new
 
-These settings will be stored for your next review session. You will have the option to change preset parameters each time you begin a review. 
- 
-## Reviewing overall image quality rating 
-During all review sessions you will enter a numerical score between 1-5 for the image quality as is displayed below.
+```
+
+# Interface
+
+
+### Reviewing overall image quality rating 
+During all review sessions a numerical score between 1-5 for each scan is required.
  
  ```
- Enter overall image quality rating:
-1. Very Poor    2. Suboptimal   3. Acceptable   4. Above Average    5. Excellent
+Rate overall image quality rating.
+    *Image: sub-156610_FLAIR.nii.gz
 
-Rating (1 to 5): 
+
+1- Unusable      2 - Suboptimal      3 - Acceptable       4 - Above Average     5 - Excellent
+
+Enter rating (1 to 5): 
  ```
 
 ### Optional: Reviewing artifacts
-There is an option to review artifacts (Motion, susceptibilty, ghosting/flow). This required the '-a' argument to be supplied when running the main script. 
+If the -a argument is provided a numerical score between 1-5 for each artifact type is required.
 
 ```
-python3 MRIqa_tool.py -a
+Rate SUSCEPTIBILITY severity.
+    *Image: sub-156610_FLAIR.nii.gz
+
+
+1 - Severe       2 - Moderately Severe       3 - Moderate        4 - Mild        5 - None
+
+Enter rating (1 to 5): 
 ```
 
 
-## Ending the session 
-The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the existing or new .json file appear in the 'reviweDB' folder 
+### Ending the session 
+The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the existing or new .json file and results from the MongoDB database will be downloaded as a .json file with the prefix 'mongodb-import'
 
