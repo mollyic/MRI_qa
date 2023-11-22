@@ -118,7 +118,7 @@ python3 mriqa.py --s 1005 4005
 
 
 ### User config file
-When you first use the script a config file will be created in the work directory (*mriqa_config.toml*) saving the review session search parameters. These settings will be loaded automatically when you run the script agin. If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal 
+When you first use the script a config file will be created in the work directory (*mriqa_config.toml*) saving the review session search parameters. These settings will be loaded automatically when you run the script again. If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal 
 
 - **Changing settings**: changing search parameters, directory paths or string identifier in config file
 ```
@@ -148,17 +148,15 @@ python3 mriqa.py -na
 If there are review files in the output directory or in your MongoDB database, select the session to resume entering the corresponding number. 
  
  ```
-
 1. MRIrate_session-03-08-2021_162134
 2. MRIrate_session-06-08-2021_150826
 3. MRIrate_session-09-08-2021_190512
 Enter session number to resume: 
-
  ```
 
 ### Force new session
 
-To start a new session when previous ratings exist the *-new* argument should be entered in the command line. This will recreate the config file from scratch meaning the mandatory arguments of 'bids_dir' and 'viewer' must be entered.
+To start a new session when previous ratings exist the *'-new'* argument should be entered in the command line. This will recreate the config file from scratch meaning the mandatory arguments of *'bids_dir'* and *'viewer'* must be entered.
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap -new
@@ -171,7 +169,7 @@ During all review sessions a numerical score between 1-5 for each scan is requir
  
  ```
 Rate overall image quality rating.
-    *Image: sub-156610_FLAIR.nii.gz
+    *Image: sub-0000_FLAIR.nii.gz
 
 
 1- Unusable      2 - Suboptimal      3 - Acceptable       4 - Above Average     5 - Excellent
@@ -184,7 +182,7 @@ If the -a argument is provided a numerical score between 1-5 for each artifact t
 
 ```
 Rate SUSCEPTIBILITY severity.
-    *Image: sub-156610_FLAIR.nii.gz
+    *Image: sub-0000_FLAIR.nii.gz
 
 
 1 - Severe       2 - Moderately Severe       3 - Moderate        4 - Mild        5 - None
@@ -195,5 +193,5 @@ Enter rating (1 to 5):
 **Note:** do not close your scan viewer, after your review has been entered the current image will be closed and the next image will open automatically
 
 ### Ending the session 
-The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the existing or new .json file and results from the MongoDB database will be downloaded as a .json file with the prefix 'mongodb-import'
+The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the .json file or MongoDB database. Results from the MongoDB database will be automatically downloaded as a .json file with the prefix 'mongodb-import'
 
