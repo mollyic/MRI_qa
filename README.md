@@ -80,6 +80,7 @@ To run the script, open a terminal or command prompt in the directory where the 
 - viewer: scan viewer software (itksnap/mrview/fsleyes)
 - review_id (*OPTIONAL*): user inputted string used to name the review session 
 - artifacts (*OPTIONAL*): option to review artifacts seperately to the overall rating (motion, susceptibility, ghosting/flow)
+- mongodb (*OPTIONAL*): option to store reviews in a MongoDB database
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts
