@@ -10,3 +10,5 @@ dependencies:
    - getpass4
    - bids
    - toml
+   - nibabel
+   - pandas

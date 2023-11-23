@@ -27,9 +27,10 @@ class reviewer():
         review, self.max_reviews, self.rater_reviewed= func(**fargs)
         return review
     
-    def review(self, img):
+    def review(self, file):
         func = config.collector._review
-        fargs = {'img': img, 'collection': self.db}
+        img = bn(file)
+        fargs = {'img': img, 'collection': self.db, 'filepath' :file}
         func(**fargs)
 
 
@@ -48,10 +49,16 @@ def list_collections(collections):
     
     return collections[int(index)-1]
 
-def rater(msg, score):
+def rater(path, msg, score):
     score = verify_input(msg=msg, score=score)
-            
-    return {'user': config.session.user, 'rating': score, 
+
+    # while True:
+    #     masked = input("Brain masked (0:no, 1:yes): ")
+    #     if masked.isdigit(): 
+    #         if int(masked) in range(1, 3):
+    #             break        
+
+    return {'user': config.session.user, 'rating': score, 'path': path, #'masked': masked,
             'date': datetime.now().strftime("%d-%m-%Y_%H:%M:%S"), "viewer": config.session.viewer}
 
 def _artifacts(img):
@@ -59,6 +66,13 @@ def _artifacts(img):
     rating = {artifact: verify_input(msg = messages.ART_MSG.format(artifact=artifact.upper(), img=img), score=messages.ART_SCORES) 
                 for artifact in config.ARTIFACTS}
     return rating
+
+def _get_dims(file):
+    import nibabel as nib
+    img_ar = nib.load(file)
+    vox = list(img_ar.header.get_zooms())
+    dims = list(img_ar.shape)
+    return [str(d) for d in dims], [str(v) for v in vox]
 
 class _JsonDB:
     
@@ -89,19 +103,19 @@ class _JsonDB:
 
         return review, max_reviews, rater_reviewed
     
-    def _review(collection, img): 
-        reviewed = True if img in collection.keys() else False
-        rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES)
-        
+    def _review(collection, filepath, img): 
+
+        rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES, path = filepath)
         if config.session.artifacts: 
             rating.update({'artifact':_artifacts(img)})
-        
-        if reviewed:
+            collection[img].update({'voxels': vox, 'scan_dims': dims})
+
+        if not img in collection.keys():
+            dims, vox = _get_dims(filepath)
+            collection[img] = {'ratings': [rating], 'review_count': 1, 'voxels': vox, 'scan_dims': dims}
+        else:
             collection[img]['ratings'].append(rating)
             collection[img]['review_count'] += 1
-        else: 
-            collection[bn(img)]['ratings'] = [rating]
-            collection[bn(img)]['review_count'] = 1
 
 
 class _MongoDB:
@@ -117,7 +131,7 @@ class _MongoDB:
         load_dotenv(config.session.db_settings)                                 #load .env file with mongodb credentials
         
         client = MongoClient(host=os.getenv('MONGODB_HOST'), port=27017, username=os.getenv('MONGODB_USRNAME'), password=os.getenv('MONGODB_PW'))
-        db = client["yds"]
+        db = client["mriqa"]
 
         # TROUBLESHOOTING: drop mongodbs
         # for d in db.list_collection_names():
@@ -148,8 +162,9 @@ class _MongoDB:
         return review, max_reviews, rater_reviewed
 
 
-    def _review(collection, img): 
-        rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES)
+    def _review(collection, filepath, img, vox, dims): 
+
+        rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES, path =filepath)
         
         if config.session.artifacts: 
             rating.update({'artifact':_artifacts(img)})
@@ -157,4 +172,4 @@ class _MongoDB:
         if collection.find_one({"scan_id": img}):
             collection.update_one({"scan_id": img}, {"$inc": {"review_count": 1}, "$push": {"ratings": rating}})
         else: 
-            collection.insert_one({"scan_id": img, "review_count": 1, "ratings": [rating]}) 
+            collection.insert_one({"scan_id": img, "review_count": 1, "voxels": vox, "scan_dims": dims, "ratings": [rating]}) 

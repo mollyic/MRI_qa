@@ -46,7 +46,7 @@ def main():
               continue
 
             subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-            db.review(img = bn(file))
+            db.review(file)
                     
             kill_process(viewer)        
     except KeyboardInterrupt:
@@ -64,7 +64,7 @@ def main():
 
     if not config.session.mongodb:
         with open(db.filename, "w") as f:
-            json.dump(db.db, f, indent = 4)
+            json.dump(db.db, f, indent = 4, separators=(',', ': '))
 
     else:
         import_mongo(db.db, output_dir, db.filename)
