@@ -146,6 +146,13 @@ def consoleOptions():
                         action="store",
                         type=str,
                         help="R| * Set username for troubleshooting (default is the system username).\n ")    
+    
+    parser.add_argument("--csv",
+                        dest="_csv_out",
+                        action="store_true",
+                        #default=False,
+                        help="R| * Convert database to csv file.\n ")    
+
     return parser
 
      

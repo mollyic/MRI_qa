@@ -97,5 +97,5 @@ ART_SCORES = """
 
 #Message for possible rating score
 PICK_SCORE ="Enter rating (1 to 5): "
-PICK_SES ="Enter session number to resume: "
+PICK_SES ="Enter session number: "
 

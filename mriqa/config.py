@@ -109,11 +109,12 @@ class session(_Config):
     """Filter input dataset by string """
     session = None
     """Filter input dataset by session identifier."""
-    
+    _csv_out = None
+    """Option to output csv file"""
+
     _log_level = 20
     _layout = None
     _paths = ("bids_dir","output_dir","work_dir", 'config_file', 'db_settings')
-
     @classmethod
     def init(cls):
         """Create a new BIDS Layout accessible with :attr:`~execution.layout`."""

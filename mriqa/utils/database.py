@@ -17,7 +17,7 @@ class reviewer():
 
     def __init__(self):
         func = config.collector._db
-        self.db, self.filename = func()
+        self.db, self.filename, self.new_db = func()
         self.max_reviews = []
         self.rater_reviewed = []
 
@@ -38,7 +38,7 @@ def list_collections(collections):
     """Generate list of already recorded results """
     
     if not collections:
-        print('No sessions to resume, exiting.')
+        config.loggers.cli.log(30, msg = 'No stored review databases, exiting')
         quit()
 
     list_ses = ''
@@ -50,13 +50,7 @@ def list_collections(collections):
     return collections[int(index)-1]
 
 def rater(path, msg, score):
-    score = verify_input(msg=msg, score=score)
-
-    # while True:
-    #     masked = input("Brain masked (0:no, 1:yes): ")
-    #     if masked.isdigit(): 
-    #         if int(masked) in range(1, 3):
-    #             break        
+    score = verify_input(msg=msg, score=score)      
 
     return {'user': config.session.user, 'rating': score, 'path': path, #'masked': masked,
             'date': datetime.now().strftime("%d-%m-%Y_%H:%M:%S"), "viewer": config.session.viewer}
@@ -79,8 +73,9 @@ class _JsonDB:
     def _db():
         results_dir = config.session.output_dir
         new_review = config.session._new_review
-
+        new_db = False
         collections = [item for item in os.listdir(results_dir) if re.match('^MRIqa(.*?.json$)', bn(item))]
+
         if not new_review and len(collections) >= 1:
             filename = f'{results_dir}/{list_collections(collections = collections)}'
             with open(filename, "r") as file:
@@ -88,8 +83,9 @@ class _JsonDB:
         else: 
             filename = f"{results_dir}/{messages.REVIEW_FILE.format(review_id = config.session.review_id, date =time_str)}.json"
             collection = defaultdict(dict)
-
-        return collection, filename
+            new_db = True
+        
+        return collection, filename, new_db
 
     def _check(img, collection, max_reviews, rater_reviewed):        
         if img in collection.keys():
@@ -108,7 +104,6 @@ class _JsonDB:
         rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES, path = filepath)
         if config.session.artifacts: 
             rating.update({'artifact':_artifacts(img)})
-            collection[img].update({'voxels': vox, 'scan_dims': dims})
 
         if not img in collection.keys():
             dims, vox = _get_dims(filepath)
@@ -122,7 +117,7 @@ class _MongoDB:
 
     def _db():
         from mriqa.utils import create_mongo_env
-        new_review = config.session._new_review
+        new_db = False
 
         if not config.session.db_settings.exists():
             print('No settings file found. Provide MongoDB details to save to settings.env files.')
@@ -138,13 +133,13 @@ class _MongoDB:
         #     db[d].drop()
 
         collections = [collec for collec in db.list_collection_names()]
-        if not new_review and len(collections) >= 1:
+        if not config.session._new_review and len(collections) >= 1:
             db_name = list_collections(collections=collections)
         else:
             db_name = f"{messages.REVIEW_FILE.format(review_id = config.session.review_id, date =time_str)}"
-
+            new_db = True
         collection = db[db_name]
-        return collection, db_name
+        return collection, db_name, new_db
     
 
 
@@ -162,7 +157,7 @@ class _MongoDB:
         return review, max_reviews, rater_reviewed
 
 
-    def _review(collection, filepath, img, vox, dims): 
+    def _review(collection, filepath, img): 
 
         rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES, path =filepath)
         
@@ -172,4 +167,5 @@ class _MongoDB:
         if collection.find_one({"scan_id": img}):
             collection.update_one({"scan_id": img}, {"$inc": {"review_count": 1}, "$push": {"ratings": rating}})
         else: 
+            dims, vox = _get_dims(filepath)
             collection.insert_one({"scan_id": img, "review_count": 1, "voxels": vox, "scan_dims": dims, "ratings": [rating]}) 

@@ -34,7 +34,6 @@ def import_mongo(collection, output_dir, review_id):
         res = json.loads(doc)
         del res["_id"]
         dct[res["scan_id"]] = res
-            #file.write(doc + ",\n")
 
     json_object = json.dumps(dct, indent = 4) 
 

@@ -9,7 +9,7 @@ from mriqa.utils import import_mongo
 
 
 def main():
-    from mriqa.utils import reviewer, kill_process
+    from mriqa.utils import reviewer, kill_process, convert_csv
 
     parse_console()
 
@@ -36,38 +36,45 @@ def main():
 
     config.loggers.cli.log(30, msg = start_message)
     
+        
+
     """Instantiate either dict object or mongodb database to store ratings"""
     config.collector.func_finder()      
     db = reviewer()
     user_exit = False
-    try: 
-        for file in files:                        
-            if not db.check(img = bn(file)):
-              continue
 
-            subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
-            db.review(file)
-                    
-            kill_process(viewer)        
-    except KeyboardInterrupt:
-        user_exit = True
-        config.loggers.cli.log(30, messages.USR_END.format(filename = db.filename))
-        pass 
+    if not config.session._csv_out:
+        try: 
+            for file in files:                        
+                if not db.check(img = bn(file)):
+                    continue
 
-    if not user_exit:
-        config.loggers.cli.log(30, messages.END.format(filename = db.filename))
+                subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+                db.review(file)
+                        
+                kill_process(viewer)        
+        except KeyboardInterrupt:
+            user_exit = True
+            config.loggers.cli.log(30, messages.USR_END.format(filename = db.filename))
+            pass 
 
-    if db.max_reviews or db.rater_reviewed:
-        config.loggers.cli.log(30, messages.REVIEWED.format(user = user,
-                                                            max_reviewed = db.max_reviews, 
-                                                            user_reviewed = db.rater_reviewed))
+        if not user_exit:
+            config.loggers.cli.log(30, messages.END.format(filename = db.filename))
 
-    if not config.session.mongodb:
-        with open(db.filename, "w") as f:
-            json.dump(db.db, f, indent = 4, separators=(',', ': '))
+        if db.max_reviews or db.rater_reviewed:
+            config.loggers.cli.log(30, messages.REVIEWED.format(user = user,
+                                                                max_reviewed = db.max_reviews, 
+                                                                user_reviewed = db.rater_reviewed))
+
+        if not config.session.mongodb:
+            with open(db.filename, "w") as f:
+                json.dump(db.db, f, indent = 4, separators=(',', ': '))
+
+        else:
+            import_mongo(db.db, output_dir, db.filename)
 
     else:
-        import_mongo(db.db, output_dir, db.filename)
+        convert_csv(db.filename, db.new_db)
 
 if __name__ == "__main__":
     main()
