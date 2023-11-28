@@ -37,7 +37,6 @@ def kill_process(viewer):
 def convert_csv(db_name, new_db):
     import json
     import csv
-    from mriqa.utils import list_collections
 
     if new_db:
         config.loggers.cli.log(30, msg = f'\n{mg.BREAK}\nNo stored review databases, exiting.\n{mg.BREAK}\n')

@@ -208,6 +208,20 @@ Rate SUSCEPTIBILITY severity.
 Enter rating (1 to 5): 
 ```
 
+### Optional: convert database to csv file
+Enter the --csv option in the terminal to convert a chosen data base to a csv files. Note the databases presented will be contingent on the chosen database type i.e. if MongoDB is the setting in the config file only MongoDB databases will be displayed. Entering the database terminal argument will change which ratings sessions are shown (e.g. python mriqa.py --csv --json)
+
+```
+1. MRIqa_study1_20231123_13:11:14.json
+3. MRIqa_IQM_audit_20231127_16:29:52.json
+
+Enter session number: 1
+
+--------------------------------------------------
+Converted .json to .csv:
+     * MRIqa_study1_20231123_13:11:14.json
+--------------------------------------------------
+```
 
 ### Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl + C. Your reviews will be saved to the .json file or MongoDB database. Results from the MongoDB database will be automatically downloaded as a .json file with the prefix 'mongodb-import'

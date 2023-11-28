@@ -3,6 +3,8 @@
 def collect_files(layout, bids_type, sub_id=None,session=None,file_id=None):
     from bids.utils import listify
     import re
+    from mriqa import config, messages
+
     """Get files in dataset"""
 
     basequery = {
@@ -21,9 +23,8 @@ def collect_files(layout, bids_type, sub_id=None,session=None,file_id=None):
     imaging_data = [file for file in bids_data if all(re.search(pattern, file) for pattern in file_id)] if file_id else bids_data    
     
     #Check subdirectories if no nifti
-    if not imaging_data: 
+    if not imaging_data and not config.session._csv_out: 
         import os
-        from mriqa import config, messages
         import glob
         import random
         
