@@ -50,7 +50,7 @@ Alternatively packages can be installed in your local environment using pip.
 
 ```
 #pip install
-pip install pymongo getpass4 python-dotenv bids toml
+pip install pymongo getpass4 python-dotenv bids toml nibabel
 ```
 
 
@@ -88,11 +88,12 @@ python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id grou
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --artifacts --mongodb
 ```
 
-**Note:** if this is the first time running the rating tool, an output directory containing the rating results and a work directory containing the config file will be created.
+**Note:** if this is the first time running the rating tool, an output directory containing the rating results and a work directory containing the config file will be created. It is possible to specify the location of these output folders in the terminal.
 
 
 ### BIDS database search
-Filtering of input files is possible with the use of 4 terminal arguments. By default mriqa will only search for structural T1w, T2w and FLAIR scans in the 'anat' folder
+Filtering of input files is possible with the use of 4 terminal arguments. By default mriqa will only search for structural T1w, T2w and FLAIR scans in the 'anat' folder.
+
 
 1. **File id**: Filter input dataset by string using a space delimited list
 ```
@@ -115,6 +116,19 @@ python3 mriqa.py --s 1005 4005
 ```  
 
 **Note:** these filters are additive meaning any file not meeting one of these criteria will be excluded
+
+If no BIDS directories are found in the provided folder, a prompt to check the subdirectories will appear. 
+
+
+```
+ No BIDS directories found in path/to/parent/folder
+  * Search sub-directories:
+
+['path/to/parent/folder/bids_project1', 'path/to/parent/folder/bids_project2']
+
+Proceed? (enter)
+
+```
 
 
 ### User config file

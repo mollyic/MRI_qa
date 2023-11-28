@@ -11,4 +11,3 @@ dependencies:
    - bids
    - toml
    - nibabel
-   - pandas
