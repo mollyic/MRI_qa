@@ -49,10 +49,13 @@ def main():
                 if not db.check(img = bn(file)):
                     continue
 
-                subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT)
+                process = subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, )
+                config.session._pid = process.pid
+                
                 db.review(file)
                         
                 kill_process(viewer)        
+        
         except KeyboardInterrupt:
             user_exit = True
             config.loggers.cli.log(30, messages.USR_END.format(filename = db.filename))

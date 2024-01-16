@@ -125,8 +125,11 @@ class _MongoDB:
 
         load_dotenv(config.session.db_settings)                                 #load .env file with mongodb credentials
         
-        client = MongoClient(host=os.getenv('MONGODB_HOST'), port=27017, username=os.getenv('MONGODB_USRNAME'), password=os.getenv('MONGODB_PW'))
-        db = client["mriqa"]
+        client = MongoClient(host=os.getenv('MONGODB_HOST'), 
+                             port=int(os.getenv('MONGODB_PORT')), 
+                             username=os.getenv('MONGODB_USRNAME'), 
+                             password=os.getenv('MONGODB_PW'))
+        db = client["db_test"]
 
         # TROUBLESHOOTING: drop mongodbs
         # for d in db.list_collection_names():

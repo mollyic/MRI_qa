@@ -5,7 +5,7 @@ import getpass
 import os
 import logging
 
-MODALITIES = ("T1w", "T2w", "FLAIR")
+MODALITIES = ("T1w", "T2w", "FLAIR", 'T2map')
 VIEWERS = ('itksnap', 'mrview', 'fsleyes') 
 LOG_LVL = (10, 20, 30, 40, 50) 
 ARTIFACTS = ['susceptibility', 'motion', 'flow_ghosting']
@@ -112,6 +112,7 @@ class session(_Config):
     _csv_out = None
     """Option to output csv file"""
 
+    _pid = None
     _log_level = 20
     _layout = None
     _paths = ("bids_dir","output_dir","work_dir", 'config_file', 'db_settings')
@@ -127,7 +128,7 @@ class session(_Config):
                 # Ignore folders at the top if they don't start with /sub-<label>/ and 2nd folder isn't anat
                 re.compile(r"^(?!/sub-[a-zA-Z0-9]+)"),
                 # Ignore all files, except for the supported modalities
-                re.compile(r"^.+(?<!(_T1w|_T2w|LAIR))\.(json|nii|nii\.gz)$"),]
+                re.compile(r"^.+(?<!(_T1w|_T2w|LAIR|2map))\.(json|nii|nii\.gz)$"),]
 
             if cls.sub_id:
                 # If we know participant labels, ignore all other

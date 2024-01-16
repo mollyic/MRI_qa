@@ -28,10 +28,13 @@ def kill_process(viewer):
     Kill image viewer following review
     """    
     viewer = 'itk-snap' if viewer == 'itksnap' else viewer
+
+    os.kill(config.session._pid, signal.SIGKILL)
+    #get pid from subprocess 
     
-    for line in os.popen(f"ps ax | grep -i {viewer} | grep -v grep"):   # view the open applications with 'ps ax'
-        pid = line.split()[0]                                           #process ID is the first column (0), isolate this item
-        os.kill(int(pid), signal.SIGKILL)                               #kill process with PID, sigkill() terminates program
+    #for line in os.popen(f"ps ax | grep -i {viewer} | grep -v grep"):   # view the open applications with 'ps ax'
+        #pid = line.split()[0]                                           #process ID is the first column (0), isolate this item
+        #os.kill(int(pid), signal.SIGKILL)                               #kill process with PID, sigkill() terminates program
 
 
 def convert_csv(db_name, new_db):
