@@ -1,7 +1,7 @@
 # Setup and installation for MRIqa tool
 
 ## Downloads 
-#### [Python installation](mriqa/docs/python.md)
+#### [Python installation](./python.md)
 Python 3.x is required to run the script, details on how to install python can be found in the hyperlinked title.
 
 #### Github download
