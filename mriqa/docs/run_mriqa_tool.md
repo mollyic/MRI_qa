@@ -1,5 +1,5 @@
 # Run MRIqa Tool 
-To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](##running-mriqa-tool-with-mongodb).
+To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](#running-mriqa-tool-with-mongodb).
 
 
 ## First Run
@@ -97,7 +97,7 @@ python3 mriqa.py -na
 ```
 
 
-# *Optional:* Running MRIqa tool with MongoDB
+# Running MRIqa tool with MongoDB
 To save the ratings results to a MongoDB database include the argument *mongodb* in the terminal. Note there is no communication between the MongoDB database files and the local json files.
 
 Ensure you have setup the settings.env file using [these instructions](mriqa/docs/databases.md).
