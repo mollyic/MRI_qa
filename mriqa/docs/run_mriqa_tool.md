@@ -1,5 +1,5 @@
 # Run MRIqa Tool 
-To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](#optional-configurations).
+To run the script, open a terminal or command prompt in the directory where the files are stored. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](#optional-configurations).
 
 
 ## First Run
@@ -59,7 +59,7 @@ python3 mriqa.py
 ```
 
 ### Update review settings
-If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal. Any arguments you do not change will be sourced from the config file. 
+If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered in the terminal. Any arguments you do not change will be sourced from the config file. 
 
 All possible arguments can be found be found in the [MRIqa arguments section](./arguments_dict.md) or by using the *help* argument.
 
@@ -157,7 +157,7 @@ Enter rating (1 to 5):
 ### Ending the session 
 The session will end automatically when all files are reviewed, to end early input ctrl + C. 
 
-Eeviews will be saved to the .json file or MongoDB database. Results from the MongoDB database will be automatically downloaded as a .json file with the prefix 'mongodb-import'
+Reviews will be saved to the .json file or MongoDB database. Results from the MongoDB database will be automatically downloaded as a .json file with the prefix 'mongodb-import'
 
 
 ### Optional: convert database to csv file
