@@ -5,7 +5,7 @@ To run the script, open a terminal or command prompt in the directory where the 
 ## First Run
 An output directory containing the rating results and a work directory containing the config file will be created. It is possible to specify the location of these output folders in the terminal.
 
-Details about the arguments can be found in the [MRIqa arguments section](mriqa/docs/arguments_dict) or by using the *help* argument.
+Details about the arguments can be found in the [MRIqa arguments section](mriqa/docs/arguments_dict.md) or by using the *help* argument.
 
 ```
 python3 mriqa.py --help
@@ -61,7 +61,7 @@ python3 mriqa.py
 ### Update review settings
 If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal. Any arguments you do not change will be sourced from the config file. 
 
-All possible arguments can be found be found in the [MRIqa arguments section](mriqa/docs/arguments_dict) or by using the *help* argument.
+All possible arguments can be found be found in the [MRIqa arguments section](mriqa/docs/arguments_dict.md) or by using the *help* argument.
 
 ```
 #Change BIDS modality 
