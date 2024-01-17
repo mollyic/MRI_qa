@@ -18,3 +18,6 @@ MONGODB_HOST=<password>
 When running the main script you will be required to enter an argument to specify the use of the MongoDB database. These instructions can be found on the [Run MRIqa tool page](mriqa/docs/run_mriqa_tool.md) under the run with MongoDB database.
 
 **Note:** if no value is input for <MONGODB_HOST>, the default value of 'localhost' will be used.
+
+
+Next, details on running the MRIqa tool with MongoDB can be found in the [run instructions](mriqa/docs/run_mriqa_tool.md).
