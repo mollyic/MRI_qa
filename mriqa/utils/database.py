@@ -38,7 +38,7 @@ def list_collections(collections):
     """Generate list of already recorded results """
     
     if not collections:
-        config.loggers.cli.log(30, msg = 'No stored review databases, exiting')
+        config.loggers.cli.log(20, msg = 'No stored review databases, exiting')
         quit()
 
     list_ses = ''

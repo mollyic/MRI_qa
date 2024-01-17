@@ -85,7 +85,7 @@ def consoleOptions():
                         help="R| * The directory where the output files should be stored.\n "
                         )
     
-    parser.add_argument("-w", "--work-dir",
+    parser.add_argument("-w", "--work_dir",
                         action="store",
                         type=Path,
                         default=Path("work").absolute(),
@@ -113,7 +113,7 @@ def consoleOptions():
                         default=None,
                         help="R| * Review artifacts.\n ")
     
-    parser.add_argument('--no-artifact', '-na',
+    parser.add_argument('--no_artifact', '-na',
                         dest="artifacts",
                         action='store_false', 
                         help="R| * Disable artifacts if previously selected in config.\n ")     
@@ -129,19 +129,7 @@ def consoleOptions():
                         dest="_new_review",
                         action='store_true', 
                         help="R| * Start new review session.\n ")
-        
-    parser.add_argument( "-v","--verbose",
-                        dest="_log_level",
-                        action="store",
-                        type=int,  
-                        default=20,
-                        choices=config.LOG_LVL,
-                        help="R| * Increases log verbosity, threshold by information severity:\n " 
-                            "   CRITICAL    = 50\n "
-                            "   ERROR       = 40\n "
-                            "   WARNING     = 30\n "
-                            "   INFO        = 20\n "
-                            "   DEBUG       = 10\n ")
+
     parser.add_argument("--user",
                         action="store",
                         type=str,
@@ -187,9 +175,12 @@ def parse_console(args=None, namespace=None):
             raise ValueError(messages.NO_INDIR.format(missing = missing))       
         config.ConsoleToConfig(args_dict)
 
+
     output_dir = config.session.output_dir
     work_dir = config.session.work_dir
+    config.session.log_dir = output_dir / "logs"
 
+    config.session.log_dir.mkdir(exist_ok=True, parents=True)
     output_dir.mkdir(exist_ok=True, parents=True)
     work_dir.mkdir(exist_ok=True, parents=True)
     

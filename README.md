@@ -33,20 +33,24 @@ ITK-SNAP, fsleyes or MRview are compatible with the script, only one viewer is r
 # Setup
 Required packages can be installed using conda, with the provided .yml file, or via pip install.
 
-### conda install 
+### virtual environment install 
 
-**Recommended:** A conda environment helps to manage software versions and ensures they remain compatible with the rating tool. Details on installing conda can be found at https://www.anaconda.com/download. Having downloaded conda, run the following code.
+**Recommended:** A virtual environment helps to manage software versions and ensures they remain compatible with the rating tool. 
 
 ```
-#create environment with conda
-conda env create -f MRIqa_conda.yml
+#pip install virtual environment
+pip install virtualenv
 
-#activate the conda environment
-conda activate mriqa_tool
+#create environment selecting python version 3 or later
+virtualenv -p /usr/bin/python3 mriqa_tool
+
+#activate the virtual environment
+source mriqa_tool/bin/activate
+
 ```
 
 ### pip install 
-Alternatively packages can be installed in your local environment using pip.
+Once the virtual environment has been activated packages can be installed.
 
 ```
 #pip install

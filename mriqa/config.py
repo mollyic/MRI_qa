@@ -7,7 +7,6 @@ import logging
 
 MODALITIES = ("T1w", "T2w", "FLAIR", 'T2map')
 VIEWERS = ('itksnap', 'mrview', 'fsleyes') 
-LOG_LVL = (10, 20, 30, 40, 50) 
 ARTIFACTS = ['susceptibility', 'motion', 'flow_ghosting']
 
 
@@ -83,6 +82,7 @@ class session(_Config):
     """Path to output files"""
     work_dir = Path("work").absolute()
     """Path to a working directory where intermediate results will be available."""
+    log_dir=None
     mongodb = False
     """Optional use of mongodb"""
     db_settings = Path(f"mriqa/env/settings.env").absolute()
@@ -113,9 +113,8 @@ class session(_Config):
     """Option to output csv file"""
 
     _pid = None
-    _log_level = 20
     _layout = None
-    _paths = ("bids_dir","output_dir","work_dir", 'config_file', 'db_settings')
+    _paths = ("bids_dir","output_dir","work_dir", 'config_file', "log_dir", 'db_settings')
     @classmethod
     def init(cls):
         """Create a new BIDS Layout accessible with :attr:`~execution.layout`."""
@@ -147,15 +146,35 @@ class collector(_Config):
 
 class loggers:
     cli = logging.getLogger("cli")
-    """Command-line interface logging."""
+    log_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+
 
     @classmethod
     def init(cls):
-        cls.cli.setLevel(level = session._log_level)
+        """Command-line interface logging."""
+
+        _log_file = f"{session.log_dir}/review-{session.review_id}_{cls.log_time}.log"
+        _formatter = logging.Formatter('%(message)s')
+
+        if not cls.cli.handlers:
+            cls.cli.setLevel(logging.DEBUG)
+            # console handler 
+            console_handler = logging.StreamHandler()       #send the LogRecord to the required output destination
+            console_handler.setLevel(logging.INFO)         #set log level           
+            console_handler.setFormatter(_formatter)    #set format of log 
+
+            #log file handler 
+            file_handler = logging.FileHandler(_log_file)
+            file_handler.setLevel(logging.DEBUG)
+            file_handler.setFormatter(_formatter)
+
+            # add handlers to logger
+            cls.cli.addHandler(console_handler)
+            cls.cli.addHandler(file_handler)
     
     @classmethod
     def getLogger(cls, name):
-        """Create a new logger."""
+        """Create a new logger with class and."""
         return getattr(cls, name)
 
 def ConsoleToConfig(settings):

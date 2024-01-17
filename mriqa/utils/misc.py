@@ -13,14 +13,15 @@ def verify_input(sessions = None, n = 5, msg=None, score= None):
     choice = mg.PICK_SCORE if not sessions else mg.PICK_SES
 
     while True:
-        config.loggers.cli.log(30,  msg)
-        config.loggers.cli.log(30,  score)
+        config.loggers.cli.log(20,  msg)
+        config.loggers.cli.log(20,  score)
 
         answer = input(choice)
         if answer.isdigit(): 
             if int(answer) in range(1, n + 1):
                 break
-        config.loggers.cli.log(30, error)
+        config.loggers.cli.log(20, error)
+    config.loggers.cli.log(10, f"{choice}: {answer}")
     return int(answer)
 
 def kill_process(viewer):
@@ -42,7 +43,7 @@ def convert_csv(db_name, new_db):
     import csv
 
     if new_db:
-        config.loggers.cli.log(30, msg = f'\n{mg.BREAK}\nNo stored review databases, exiting.\n{mg.BREAK}\n')
+        config.loggers.cli.log(20, msg = f'\n{mg.BREAK}\nNo stored review databases, exiting.\n{mg.BREAK}\n')
         quit()
 
     if config.session.mongodb:
@@ -54,7 +55,7 @@ def convert_csv(db_name, new_db):
         with open(db_name, 'r') as j:
             data = json.loads(j.read())
     except FileNotFoundError:
-        config.loggers.cli.log(30, f'\n{mg.BREAK}\nFile not in path:\n     * {db_name}\n{mg.BREAK}\n')
+        config.loggers.cli.log(20, f'\n{mg.BREAK}\nFile not in path:\n     * {db_name}\n{mg.BREAK}\n')
 
         sys.exit()
     except json.JSONDecodeError as e:
@@ -86,4 +87,4 @@ def convert_csv(db_name, new_db):
                     rating['viewer'],
                     rating['rating']
                 ])
-        config.loggers.cli.log(30, f'\n{mg.BREAK}\nConverted .json to .csv:\n     * {os.path.basename(out_file)}\n{mg.BREAK}\n')
+        config.loggers.cli.log(20, f'\n{mg.BREAK}\nConverted .json to .csv:\n     * {os.path.basename(out_file)}\n{mg.BREAK}\n')

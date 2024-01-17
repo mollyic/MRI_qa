@@ -10,11 +10,11 @@ from mriqa.utils import import_mongo
 
 def main():
     from mriqa.utils import reviewer, kill_process, convert_csv
+    
 
     parse_console()
-
-    # Make sure loggers are started
     config.loggers.init()
+
 
     config.to_filename(config.session.config_file)
     config.load(config.session.config_file)
@@ -34,7 +34,7 @@ def main():
             start_message += (f'       * {k}: {config.session.__dict__[v]}\n')
             
 
-    config.loggers.cli.log(30, msg = start_message)
+    config.loggers.cli.log(20, msg = start_message)
     
         
 
@@ -58,14 +58,14 @@ def main():
         
         except KeyboardInterrupt:
             user_exit = True
-            config.loggers.cli.log(30, messages.USR_END.format(filename = db.filename))
+            config.loggers.cli.log(20, messages.USR_END.format(filename = db.filename))
             pass 
 
         if not user_exit:
-            config.loggers.cli.log(30, messages.END.format(filename = db.filename))
+            config.loggers.cli.log(20, messages.END.format(filename = db.filename))
 
         if db.max_reviews or db.rater_reviewed:
-            config.loggers.cli.log(30, messages.REVIEWED.format(user = user,
+            config.loggers.cli.log(20, messages.REVIEWED.format(user = user,
                                                                 max_reviewed = db.max_reviews, 
                                                                 user_reviewed = db.rater_reviewed))
 
