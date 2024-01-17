@@ -1,5 +1,5 @@
 # Run MRIqa Tool 
-To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](##running-mriqa-tool-with-mongodb).
+To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](#optional-configurations).
 
 
 ## First Run
