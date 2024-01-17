@@ -115,8 +115,6 @@ Change between database types using the arguments below. Note the default is .js
 python3 mriqa.py --mongodb
 #revert to json database
 python3 mriqa.py --json
-
-
 ```
 **Note:** there is no interaction between MongoDB databases and local .json files, changing to a new database will not import the reviews from the previous database
 
