@@ -5,7 +5,7 @@ To run the script, open a terminal or command prompt in the directory where the 
 ## First Run
 An output directory containing the rating results and a work directory containing the config file will be created. It is possible to specify the location of these output folders in the terminal.
 
-Details about the arguments can be found in the [MRIqa arguments section](mriqa/docs/arguments_dict.md) or by using the *help* argument.
+Details about the arguments can be found in the [MRIqa arguments section](./arguments_dict.md) or by using the *help* argument.
 
 ```
 python3 mriqa.py --help
@@ -61,7 +61,7 @@ python3 mriqa.py
 ### Update review settings
 If you are resuming a session and wish to change the review parameters, the value you wish to change should be entered at in the terminal. Any arguments you do not change will be sourced from the config file. 
 
-All possible arguments can be found be found in the [MRIqa arguments section](mriqa/docs/arguments_dict.md) or by using the *help* argument.
+All possible arguments can be found be found in the [MRIqa arguments section](./arguments_dict.md) or by using the *help* argument.
 
 ```
 #Change BIDS modality 
@@ -100,7 +100,7 @@ python3 mriqa.py -na
 # Running MRIqa tool with MongoDB
 To save the ratings results to a MongoDB database include the argument *mongodb* in the terminal. Note there is no communication between the MongoDB database files and the local json files.
 
-Ensure you have setup the settings.env file using [these instructions](mriqa/docs/databases.md).
+Ensure you have setup the settings.env file using [these instructions](./databases.md).
 
 ```
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --mongodb
