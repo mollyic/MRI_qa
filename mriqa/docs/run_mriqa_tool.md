@@ -11,16 +11,16 @@ Details about the arguments can be found in the [MRIqa arguments section](./argu
 python3 mriqa.py --help
 ```
 
-### Mandatory arguments
+#### Mandatory arguments
 - bids_dir: The root folder of a BIDS valid dataset
 - viewer: Select nifti scan viewer(itksnap/mrview/fsleyes)
 
-### Recommended arguments
+#### Recommended arguments
 - review_id: user inputted string used to name the review session (date and time automatically appended)
 - sub_id: space-delimited subject IDs 
 - modalities: space-delimited modalities e.g. T2map (Default: T1w  T2map  FLAIR and T2w)
 
-### Importing subject IDs from a text file
+#### Importing subject IDs from a text file
 To import a text file of subject IDs as the input to the --sub_id argument. In the terminal window where you plan to run the main MRIqa script, enter the following bash commands.
 
 ```
