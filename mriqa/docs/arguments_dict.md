@@ -1,6 +1,7 @@
 # MRIqa arguments dictionary
 
 ## Mandatory arguments
+Required to use tool in basic search mode.
 
 1. **BIDS directory**: The root folder of a BIDS valid dataset.
 ```
@@ -15,6 +16,7 @@ python3 mriqa.py --viewer fsleyes
 ### BIDS database search
 Filtering of input files is possible with the use of 4 terminal arguments. By default mriqa will only search for structural T1w, T2w and FLAIR scans in the 'anat' folder.
 
+**Note:** these filters are additive, meaning any file not meeting one of these criteria will be excluded
 
 1. **File id**: Filter input dataset by string using a space delimited list
 ```
@@ -36,10 +38,8 @@ python3 mriqa.py --sub_id 1005
 python3 mriqa.py --s 1005 4005
 ```  
 
-**Note:** these filters are additive, meaning any file not meeting one of these criteria will be excluded
 
-If no BIDS directories are found in the provided folder, a prompt to check the subdirectories will appear. 
-
+**Note:** If no BIDS directories are found in the provided folder, a prompt to check the subdirectories will appear. 
 
 ```
  No BIDS directories found in path/to/parent/folder
@@ -48,10 +48,10 @@ If no BIDS directories are found in the provided folder, a prompt to check the s
 ['path/to/parent/folder/bids_project1', 'path/to/parent/folder/bids_project2']
 
 Proceed? (enter)
-
 ```
 
 ## Execution 
+Arguments for changing directory paths, filenames and database types.
 
 1. **Review ID**: String for naming output files and config file.
 ```
@@ -70,7 +70,6 @@ python3 mriqa.py -w path/to/store/config/file
 ```
 python3 mriqa.py --mongodb
 python3 mriqa.py -db
-
 ```
 5. **MongoDB settings**: Path where login settings for mongoDB database are stored.
 ```
@@ -87,6 +86,8 @@ python3 mriqa.py --csv
 ```
 
 ## Session 
+Arguments for changing session details or beginning a new session.
+
 
 1. **Start new review**: Clear the contents of the config file and start a new review session. Mandatory arguments will be required
 ```
@@ -101,11 +102,9 @@ python3 mriqa.py --user test_user
 ```
 python3 mriqa.py --artifacts
 python3 mriqa.py -a
-
 ```
 3. **Disable artifacts**: Disable artifacts if previously selected in config.
 ```
 python3 mriqa.py --no_artifact
 python3 mriqa.py -na
-
 ```
