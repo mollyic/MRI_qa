@@ -1,5 +1,5 @@
 # Run MRIqa Tool 
-To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](#running-mriqa-tool-with-mongodb).
+To run the script, open a terminal or command prompt in the directory where the files are stored run the main script from the terminal. By default results will be stored to a .json file, to use a MongoDB database follow [these instructions](##running-mriqa-tool-with-mongodb).
 
 
 ## First Run
@@ -85,8 +85,19 @@ python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap -new
 ```
 
 
+# Optional configurations
 
-# *Optional:* Reviewing artifacts
+## Running MRIqa tool with MongoDB
+To save the ratings results to a MongoDB database include the argument *mongodb* in the terminal. Note there is no communication between the MongoDB database files and the local json files.
+
+Ensure you have setup the settings.env file using [these instructions](./databases.md).
+
+```
+python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --mongodb
+```
+
+
+## Review artifacts
 Option to choose whether to review artifact types in the session enter, default is no artifacts review.
 ```
 #Review artifacts
@@ -94,16 +105,6 @@ python3 mriqa.py -a
 
 #Disable review of artifacts
 python3 mriqa.py -na
-```
-
-
-# Running MRIqa tool with MongoDB
-To save the ratings results to a MongoDB database include the argument *mongodb* in the terminal. Note there is no communication between the MongoDB database files and the local json files.
-
-Ensure you have setup the settings.env file using [these instructions](./databases.md).
-
-```
-python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --mongodb
 ```
 
 
@@ -118,6 +119,7 @@ python3 mriqa.py --json
 
 ```
 **Note:** there is no interaction between MongoDB databases and local .json files, changing to a new database will not import the reviews from the previous database
+
 
 
 # MRIqa tool interface
