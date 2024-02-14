@@ -182,12 +182,38 @@ def ConsoleToConfig(settings):
     session.load(settings)
 
 
-class UserDict(cp):        #inherits from ConfigParser: subclass of ConfigParser
+class UserDict(cp):        #inherits from ConfigParser/ subclass of ConfigParser
     def dictverter(self):
         ini_dict=dict(self._sections)
         for key in ini_dict:
             ini_dict = dict(self._defaults, **ini_dict[key])
         return ini_dict
+
+
+from multiprocessing import Process, active_children
+
+class ViewerMgr():
+
+    @classmethod
+    def init(cls, viewer, file):
+        children = Process(target=(os.system(f"{viewer} {file}> /dev/null 2>&1")))
+
+        # start all child processes
+        for child in children:
+            child.start()
+    
+    def kill_viewer(cls):
+        active_kids = active_children()
+        print(f'Active Children: {len(active_kids)}')
+                # terminate all active children
+        for child in active_kids:
+            child.terminate()
+        # block until all children have closed
+        for child in active_kids:
+            child.join()
+        # report active children
+        active_kids = active_children()
+        print(f'Active Children: {len(active_kids)}')
 
 
 def dumps():

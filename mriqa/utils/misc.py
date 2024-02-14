@@ -24,18 +24,24 @@ def verify_input(sessions = None, n = 5, msg=None, score= None):
     config.loggers.cli.log(10, f"{choice}: {answer}")
     return int(answer)
 
-def kill_process(viewer):
-    """
-    Kill image viewer following review
-    """    
-    viewer = 'itk-snap' if viewer == 'itksnap' else viewer
+# def kill_process(viewer):
+#     """
+#     Kill image viewer following review
+#     """    
+#     viewer = 'itk-snap' if viewer == 'itksnap' else viewer
+#     os.kill(config.session._pid, signal.SIGTERM)
 
-    os.kill(config.session._pid, signal.SIGKILL)
-    #get pid from subprocess 
-    
-    #for line in os.popen(f"ps ax | grep -i {viewer} | grep -v grep"):   # view the open applications with 'ps ax'
-        #pid = line.split()[0]                                           #process ID is the first column (0), isolate this item
-        #os.kill(int(pid), signal.SIGKILL)                               #kill process with PID, sigkill() terminates program
+
+def kill_process(function):
+    if function == 'itksnap':
+        function = 'itk-snap'
+    # view the open applications with 'ps ax' then pipe results into grep, searching for 'itk-snap'
+    # exclude the actual grep search using exclusive argument '-v'
+    for line in os.popen(f"ps ax | grep -i {function} | grep -v grep"):
+        #process ID is the first column (0), isolate this item
+        pid = line.split()[0]
+        #kill the process by providing the PID, sigkill function forcefully tells mac to terminate program
+        os.kill(int(pid), signal.SIGKILL)
 
 
 def convert_csv(db_name, new_db):
