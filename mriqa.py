@@ -1,16 +1,16 @@
 from mriqa import messages
 from mriqa import config
 from mriqa.env import parse_console
-import subprocess
-import pprint
+from subprocess import Popen, DEVNULL, STDOUT
 import json 
 from os.path import basename as bn
 from mriqa.utils import import_mongo
+from signal import SIGTERM
+import os
 
 
 def main():
-    from mriqa.utils import reviewer, kill_process, convert_csv
-    
+    from mriqa.utils import reviewer, convert_csv
 
     parse_console()
     config.loggers.init()
@@ -36,8 +36,7 @@ def main():
 
     config.loggers.cli.log(20, msg = start_message)
     
-        
-
+    
     """Instantiate either dict object or mongodb database to store ratings"""
     config.collector.func_finder()      
     db = reviewer()
@@ -49,15 +48,15 @@ def main():
                 if not db.check(img = bn(file)):
                     continue
 
-                process = subprocess.Popen([viewer, file], stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, )
+                process = Popen([viewer, file], stdout=DEVNULL, stderr=STDOUT, start_new_session=True)
                 config.session._pid = process.pid
-                
+                print(f'\nProcess PID: {process.pid}\n')
                 db.review(file)
-                        
-                kill_process(viewer)        
-        
+                os.kill(int(process.pid), SIGTERM) 
+
         except KeyboardInterrupt:
             user_exit = True
+            #run(['tmux', 'kill-session', '-t', tmux_ses])
             config.loggers.cli.log(20, messages.USR_END.format(filename = db.filename))
             pass 
 

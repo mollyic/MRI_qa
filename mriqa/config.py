@@ -182,7 +182,7 @@ def ConsoleToConfig(settings):
     session.load(settings)
 
 
-class UserDict(cp):        #inherits from ConfigParser: subclass of ConfigParser
+class UserDict(cp):        #inherits from ConfigParser/ subclass of ConfigParser
     def dictverter(self):
         ini_dict=dict(self._sections)
         for key in ini_dict:

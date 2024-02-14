@@ -111,7 +111,7 @@ class _JsonDB:
         else:
             collection[img]['ratings'].append(rating)
             collection[img]['review_count'] += 1
-
+        return False
 
 class _MongoDB:
 
@@ -172,3 +172,5 @@ class _MongoDB:
         else: 
             dims, vox = _get_dims(filepath)
             collection.insert_one({"scan_id": img, "review_count": 1, "voxels": vox, "scan_dims": dims, "ratings": [rating]}) 
+        
+        return False
