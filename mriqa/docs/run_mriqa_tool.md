@@ -40,10 +40,10 @@ echo ${SUBS[@]}
 python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap 
 
 #Option 2: run using recommended arguments
-python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --sub-id 1000 2000
+python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --sub_id 1000 2000
 
 #Option 3: run using recommended arguments and importing subjects from text file
-python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --sub-id ${SUBS[@]}
+python3 mriqa.py --bids_dir path/to/bids/files --viewer itksnap --review_id group_review --sub_id ${SUBS[@]}
 ```
 
 Skip to the [MRIqa tool interface section](#mriqa-tool-interface) if your settings are properly configured.
