@@ -124,7 +124,18 @@ def consoleOptions():
                         default=Path(f"mriqa/env/settings.env").absolute(),
                         help="R| * Path where login settings for mongoDB database are stored.\n "
                         ) 
+
+    parser.add_argument('--comment', '-c',
+                        action='store_true', 
+                        default=None,
+                        help="R| * Add comment field during review.\n ")
     
+    parser.add_argument('--no_comment', '-nc',
+                        dest="comment",
+                        action='store_false', 
+                        help="R| * Disable comments if previously selected in config.\n ")     
+
+
     parser.add_argument('--new_review', '-new',
                         dest="_new_review",
                         action='store_true', 
@@ -160,7 +171,7 @@ def parse_console(args=None, namespace=None):
     #Check if any argument was provided that differs from the default
     if os.path.exists(config_file) and not args_dict['_new_review']:
         toml_dict = load_toml(config_file)
-        bool_args= ['mongodb', 'artifacts']
+        bool_args= ['mongodb', 'artifacts', 'comment']
         user_inputs = {key: args_dict[key] for key in args_dict if key not in bool_args if args_dict[key] != parser.get_default(key)}
         for key, val in user_inputs.items():
             toml_dict["session"].update({key: val})
@@ -206,5 +217,8 @@ def parse_console(args=None, namespace=None):
         "bids_type": config.session.modalities,
         "file_id": config.session.file_id}
 
-    config.session.inputs = collect_files(config.session.layout, **bids_filters)
+    print('\n\nCSV status:')
+    print(config.session._csv_out)
+    if not config.session._csv_out:
+        config.session.inputs = collect_files(config.session.layout, **bids_filters)
 

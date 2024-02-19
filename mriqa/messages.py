@@ -95,6 +95,11 @@ ART_SCORES = """
 
 1 - Severe       2 - Moderately Severe       3 - Moderate        4 - Mild        5 - None\n"""
 
+
+CMNT_MSG = """
+
+Enter comment for image rating:\n"""
+
 #Message for possible rating score
 PICK_SCORE ="Enter rating (1 to 5): "
 PICK_SES ="Enter session number: "

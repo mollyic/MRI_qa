@@ -93,6 +93,8 @@ class session(_Config):
     """Start a new review session"""
     artifacts= False
     """Boolean: option to review artifacts or not"""
+    comment= False
+    """Option to add comment field entry during review"""
     review_id = f"{user}"
     """Identifying string for the review session config and output files"""
     inputs = None
@@ -117,7 +119,7 @@ class session(_Config):
     _paths = ("bids_dir","output_dir","work_dir", 'config_file', "log_dir", 'db_settings')
     @classmethod
     def init(cls):
-        """Create a new BIDS Layout accessible with :attr:`~execution.layout`."""
+        """Create a new BIDS Layout accessible with :attr:`~session.layout`."""
         if cls._layout is None:
             import re
             from bids.layout.index import BIDSLayoutIndexer

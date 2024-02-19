@@ -50,13 +50,12 @@ def main():
 
                 process = Popen([viewer, file], stdout=DEVNULL, stderr=STDOUT, start_new_session=True)
                 config.session._pid = process.pid
-                print(f'\nProcess PID: {process.pid}\n')
                 db.review(file)
                 os.kill(int(process.pid), SIGTERM) 
 
         except KeyboardInterrupt:
             user_exit = True
-            #run(['tmux', 'kill-session', '-t', tmux_ses])
+            os.kill(int(process.pid), SIGTERM) 
             config.loggers.cli.log(20, messages.USR_END.format(filename = db.filename))
             pass 
 

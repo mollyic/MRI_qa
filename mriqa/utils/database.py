@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 from mriqa import config
 from os.path import basename as bn
-from mriqa.utils import verify_input
+from mriqa.utils import verify_input, input_cmnt
 from datetime import datetime
 
 
@@ -103,7 +103,11 @@ class _JsonDB:
 
         rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES, path = filepath)
         if config.session.artifacts: 
+            #review artifacts if option enabled
             rating.update({'artifact':_artifacts(img)})
+        if config.session.comment: 
+            #add comment if option enabled
+            rating.update({'comment':input_cmnt()})
 
         if not img in collection.keys():
             dims, vox = _get_dims(filepath)
@@ -165,7 +169,11 @@ class _MongoDB:
         rating = rater(msg = messages.OVERALL_MSG.format(img=img), score= messages.SCORES, path =filepath)
         
         if config.session.artifacts: 
+            #review artifacts if option enabled
             rating.update({'artifact':_artifacts(img)})
+        if config.session.comment: 
+            #add comment if option enabled
+            rating.update({'comment':input_cmnt()})
 
         if collection.find_one({"scan_id": img}):
             collection.update_one({"scan_id": img}, {"$inc": {"review_count": 1}, "$push": {"ratings": rating}})
