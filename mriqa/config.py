@@ -7,8 +7,9 @@ import logging
 
 MODALITIES = ("T1w", "T2w", "FLAIR", 'T2map')
 VIEWERS = ('itksnap', 'mrview', 'fsleyes') 
-ARTIFACTS = ['susceptibility', 'motion', 'flow_ghosting']
-
+ARTIFACTS = ['motion', 'susceptibility', 'flow_ghosting']
+#BIN_ARTIFACTS=['inu', 'gibbs', 'wrap_around', 'zipper', 'central_point', 'herringbone']
+BIN_ARTIFACTS=['inu', 'wrap_around']
 
 class _Config:
     """"
@@ -75,7 +76,10 @@ class _Config:
 class session(_Config):
     user = getpass.getuser()
     """Rater name to be stored"""
-
+    
+    dict_radiologists = True
+    """Retrieve radiologists dictionary"""
+    
     bids_dir = None
     """An existing path to the dataset, which must be BIDS-compliant."""
     output_dir = None
@@ -85,7 +89,7 @@ class session(_Config):
     log_dir=None
     mongodb = False
     """Optional use of mongodb"""
-    db_settings = Path(f"mriqa/env/settings.env").absolute()
+    db_settings = Path("mriqa/env/settings.env").absolute()
     """MongoDB login settings file"""
     viewer= None
     """Nifti file viewer"""
@@ -115,6 +119,7 @@ class session(_Config):
     _pid = None
     _layout = None
     _paths = ("bids_dir","output_dir","work_dir", 'config_file', "log_dir", 'db_settings')
+    
     @classmethod
     def init(cls):
         """Create a new BIDS Layout accessible with :attr:`~execution.layout`."""
@@ -135,6 +140,11 @@ class session(_Config):
 
             _indexer = BIDSLayoutIndexer(validate=False,ignore=ignore_paths)
             cls._layout = BIDSLayout(str(cls.bids_dir),indexer=_indexer)
+        
+        if cls.dict_radiologists:
+            from dictionary.generate_dictionary import radioligist_dict
+            print('init')
+            cls.dict_radiologists = radioligist_dict()
 
         cls.layout = cls._layout
 

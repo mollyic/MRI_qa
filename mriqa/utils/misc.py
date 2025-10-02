@@ -4,14 +4,22 @@ from mriqa import messages as mg
 
 import os
 import sys
+import re 
+from dictionary.check_rating import check_radiologists
 
-def verify_input(sessions = None, n = 5, msg=None, score= None):
+def verify_input(sessions = None, n = 5, msg=None, score= None, rate_type = 'image_quality', sequence = False):
 
     msg = msg if not sessions else sessions
     score = score if not sessions else ''
     error = mg.RATE_ERR if not sessions else mg.SES_ERR
     choice = mg.PICK_SCORE if not sessions else mg.PICK_SES
-
+    
+    if sequence:
+        get_dict = input(f'\n--------------------------------------------------\nGet 📜 for {sequence} {rate_type}?\n-------------------------------------------------\n')
+        if get_dict != '0':
+            prediction = check_radiologists(dic_seq=config.session.dict_radiologists, 
+                                            rtype=rate_type, 
+                                            seq=sequence)
     while True:
         config.loggers.cli.log(20,  msg)
         config.loggers.cli.log(20,  score)
@@ -65,8 +73,12 @@ def convert_csv(db_name, new_db):
     with open(out_file, 'w', newline='') as file:
         csv_writer = csv.writer(file)
         
+        row_names = ['scan', 'review_count', 'voxels', 'scan_dims', 'user', 'path', 'date', 'viewer', 'rating']
+        if config.session.artifacts:
+            row_names.extend(['motion', 'susceptibility', 'flow_ghosting', 'inu', 'wrap_around']) #'gibbs', 
+                             #'wrap_around', 'zipper', 'central_point', 'herringbone'])
         #header
-        csv_writer.writerow(['scan', 'review_count', 'voxels', 'scan_dims', 'user', 'path', 'date', 'viewer', 'rating'])
+        csv_writer.writerow(row_names)
         
         # Iterate over each scan in the JSON data
         for scan, scan_data in data.items():
@@ -76,15 +88,23 @@ def convert_csv(db_name, new_db):
 
             # Iterate over each rating in the scan
             for rating in scan_data['ratings']:
-                csv_writer.writerow([
-                    scan,
-                    review_count,
-                    voxels,
-                    scan_dims,
-                    rating['user'],
-                    rating['path'],
-                    rating['date'],
-                    rating['viewer'],
-                    rating['rating']
-                ])
+                row_values = [scan, review_count, voxels, scan_dims,
+                              rating['user'], rating['path'], rating['date'],rating['viewer'], rating['rating']]
+            
+                if config.session.artifacts:
+                    row_values.extend([rating['artifact']['motion'],
+                                       rating['artifact']['susceptibility'],
+                                       rating['artifact']['flow_ghosting'], 
+                                       rating['artifact']['inu'], 
+                                       rating['artifact']['wrap_around']
+                                       #rating['artifact']['gibbs'],
+                                       #rating['artifact']['zipper'], 
+                                       #rating['artifact']['central_point'],
+                                       #rating['artifact']['herringbone']
+                                       ])
+                csv_writer.writerow(row_values)
+
         config.loggers.cli.log(20, f'\n{mg.BREAK}\nConverted .json to .csv:\n     * {os.path.basename(out_file)}\n{mg.BREAK}\n')
+
+
+

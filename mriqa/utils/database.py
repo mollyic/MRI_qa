@@ -50,15 +50,59 @@ def list_collections(collections):
     return collections[int(index)-1]
 
 def rater(path, msg, score):
-    score = verify_input(msg=msg, score=score)      
+    pattern = f"({'|'.join(config.MODALITIES)})\.nii(?:\.gz)?$"
+    print(pattern)
+    print(path)
+    score = verify_input(msg=msg, score=score, 
+                         sequence = re.search(pattern, path).group(1))      
 
     return {'user': config.session.user, 'rating': score, 'path': path, #'masked': masked,
             'date': datetime.now().strftime("%d-%m-%Y_%H:%M:%S"), "viewer": config.session.viewer}
 
 def _artifacts(img):
+    pattern = rf"({'|'.join(config.MODALITIES)})\.nii(?:\.gz)?$"
+    rating = {artifact: verify_input(msg = messages.ART_MSG.format(artifact=artifact.upper(), img=img), 
+                                     score=messages.ART_SCORES,
+                                     sequence = re.search(pattern, img).group(1),
+                                     rate_type = artifact) 
 
-    rating = {artifact: verify_input(msg = messages.ART_MSG.format(artifact=artifact.upper(), img=img), score=messages.ART_SCORES) 
                 for artifact in config.ARTIFACTS}
+    
+    for bin_artifact in config.BIN_ARTIFACTS:
+        if bin_artifact == 'inu':
+            direc_list = ['None', 'AP', 'SI']
+            direc_msg = messages.BREAK +f'\n\n{bin_artifact.upper()} present? \t0.None   1.Ant-Pos   2.Sup-Inf'
+
+
+            while True:
+                config.loggers.cli.log(20, direc_msg)
+                direc_answer = input('Answer: \t')
+                try:
+                #if direc_answer.isdigit(): 
+                    if int(direc_answer) == 0:
+                        rating[bin_artifact] = 'None'
+                        break
+
+                    sev_msg =f'\n\n{bin_artifact} severity in {direc_list[int(direc_answer)]} direction? (0:Mild, 1.Significant)'
+                    config.loggers.cli.log(20, sev_msg)
+                    sev_answer = input('Answer: \t')
+                    rating[bin_artifact] = f'{direc_list[int(direc_answer)]}_{str(sev_answer)}'
+                    break
+                except:
+                    config.loggers.cli.log(20,f"\n{messages.BREAK}\nInvalid entry provided")
+            continue
+        
+        while True:
+            config.loggers.cli.log(20,  messages.BIN_MSG.format(artifact=bin_artifact.upper()))
+            answer = input('Answer: \t')
+            if answer.isdigit(): 
+                if int(answer) in range(0, 3):
+                    break
+
+            config.loggers.cli.log(20,f"\n{messages.BREAK}\nInvalid entry provided: {answer}")
+        config.loggers.cli.log(10, f"'Response: {answer}")
+        rating[bin_artifact] = int(answer)
+        
     return rating
 
 def _get_dims(file):

@@ -14,8 +14,6 @@ def main():
 
     parse_console()
     config.loggers.init()
-
-
     config.to_filename(config.session.config_file)
     config.load(config.session.config_file)
 
@@ -53,8 +51,10 @@ def main():
                 config.session._pid = process.pid
                 
                 db.review(file)
-                        
-                kill_process(viewer)        
+                
+                process.terminate()
+                process.wait()
+                #kill_process(viewer)        
         
         except KeyboardInterrupt:
             user_exit = True

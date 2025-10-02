@@ -93,7 +93,9 @@ SCORES = """
 ART_MSG = BREAK +'\n\nRate {artifact} severity.\n    *Image: {img}'
 ART_SCORES = """
 
-1 - Severe       2 - Moderately Severe       3 - Moderate        4 - Mild        5 - None\n"""
+1 - Severe       2 - Moderate       3 - Mild        4 - None        5 - Outside the brain\n"""
+
+BIN_MSG = BREAK +'\n\n{artifact} present? \t0. None, 1. Present, 2. Significant)'
 
 #Message for possible rating score
 PICK_SCORE ="Enter rating (1 to 5): "
